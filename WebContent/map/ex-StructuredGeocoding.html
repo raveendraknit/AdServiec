@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Structured Geocoding Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" type="text/css" href="prettify/prettify.css">
+        <script src="prettify/prettify.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+        <style>
+            body{
+                overflow-y:scroll;
+            }
+        </style>
+    </head>
+    <body class="example">
+        <div class="description">
+            <h1 class="title">Structured Geocoding example</h1>
+            Converting structured address to latitude / longitude.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>                 
+        <div id="JSONContainer"></div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;    
+        Toast.show("loading...");
+
+        var myAddress = new deCarta.Core.StructuredAddress(
+            {
+                buildingNumber : 22,
+                street : "Karee Street",
+                municipality : "Irene",
+                countrySubdivision : "Gauteng"
+            },
+            new deCarta.Core.Locale('EN', 'ZA')
+        );       
+        document.getElementById("JSONContainer").innerHTML +=
+            "<h4>structured address input : "+myAddress.toString()+"</h4>";
+        deCarta.Core.Geocoder.geocode(myAddress,function(addressResults){
+            Toast.hide();
+            document.getElementById("JSONContainer").innerHTML +="<h4>raw JSON response :</h4>"
+                +"<pre class='prettyprint light'>"+(JSON.stringify(addressResults))+"</pre>";
+            prettyPrint(true);
+        });
+    </script>
+</html>    

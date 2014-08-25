@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblBannerSizes" table="tblBannerSizes" schema="dbo" catalog="AddManager">
+        <id name="bannerSizeId" type="string">
+            <column name="BannerSizeID" length="36" />
+            <generator class="assigned" />
+        </id>
+        <property name="width" type="java.lang.Integer">
+            <column name="Width" />
+        </property>
+        <property name="height" type="java.lang.Integer">
+            <column name="Height" />
+        </property>
+        <property name="groupName" type="string">
+            <column name="GroupName" length="20" />
+        </property>
+        <set name="tblBannerImageses" inverse="true">
+            <key>
+                <column name="BannerSizeID" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerImages" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Draggable Items Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+    </head>
+    <body class="example">        
+        <div id="mapContainer">
+            <div id="eventInfo" style="background-color:rgba(200,200,200,0.7);position:absolute;top:10px;left:10px;z-index:10000;font-size:9px;text-align:left"></div>
+        </div>        
+        <div class="description">
+            <h1 class="title">Overlapping Shapes</h1>
+            Shows how events are handled when two shapes overlap. Please note that the two shapes are draggable.
+            <button onclick="window.toggles1()">Toggle Shape 1</button><br />
+            <button onclick="window.toggles2()">Toggle Shape 2</button><br />
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+
+        function eventHandler(event){
+            var eventInfo = document.getElementById("eventInfo");
+            var position = event.position ? " - "+event.position : "";
+            var info = event.eventType +" - "+ event.object.type + position;
+            eventInfo.innerHTML=info+"<br>"+eventInfo.innerHTML;
+        }
+               
+        function addPoly(vertices, color) {
+            
+
+            var polygonOptions ={
+                vertices: vertices,
+                strokeColor: "#222222",
+                fillColor: color,
+                text: "test name",
+                strokeOpacity: 0.5,
+                strokeWeight: 1,
+                draggable: true,
+                fillOpacity: 0.3
+            };
+            var poly = new deCarta.Core.Polygon(polygonOptions);
+            poly.name = "Name of Poly";
+
+            poly.onclick(eventHandler);
+            poly.onhoveron(eventHandler);
+            poly.onhoveroff(eventHandler)
+            return poly;
+        };
+
+
+        var controls = [];
+               
+            var shapeOverlay = new deCarta.Core.MapOverlay({
+                name: "Shapes"
+            });
+     
+
+            window.map = new deCarta.Core.Map({
+                id: "mapContainer",
+                zoom:7,            
+                center: new deCarta.Core.Position(37, -122), 
+                controls: controls,                
+                onReady: function(map){
+                    
+                    map.addOverlay(shapeOverlay);
+
+                    var coords1 = [
+                        new deCarta.Core.Position(38, -122),
+                        new deCarta.Core.Position(38, -123),
+                        new deCarta.Core.Position(36, -123),
+                        new deCarta.Core.Position(36, -121),
+                        new deCarta.Core.Position(37, -121),
+                        new deCarta.Core.Position(37, -122)
+                    ];
+                
+                    var poly1 = addPoly(coords1, '#880000');
+                    shapeOverlay.addObject(poly1);     
+
+                    var coords2 = [
+                        new deCarta.Core.Position(38, -121),
+                        new deCarta.Core.Position(38, -122),
+                        new deCarta.Core.Position(36, -122),
+                        new deCarta.Core.Position(36, -121)
+                    ];               
+
+                    var poly2 = addPoly(coords2, '#008800');
+                    shapeOverlay.addObject(poly2);                                            
+
+                    window.toggles2 = function(){                        
+                        poly2.toggle();
+                    }
+                    window.toggles1 = function(){                        
+                        poly1.toggle();
+                    }
+
+                 }
+            });            
+    </script>
+</html>    

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetPaths" table="aspnet_Paths" schema="dbo" catalog="AddManager">
+        <id name="pathId" type="string">
+            <column name="PathId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="aspnetApplications" class="com.sdk.service.AspnetApplications" fetch="select">
+            <column name="ApplicationId" length="36" not-null="true" />
+        </many-to-one>
+        <property name="path" type="serializable">
+            <column name="Path" not-null="true" />
+        </property>
+        <property name="loweredPath" type="serializable">
+            <column name="LoweredPath" not-null="true" />
+        </property>
+        <set name="aspnetPersonalizationPerUsers" inverse="true">
+            <key>
+                <column name="PathId" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetPersonalizationPerUser" />
+        </set>
+        <set name="aspnetPersonalizationAllUserses" inverse="true">
+            <key>
+                <column name="PathId" length="36" not-null="true" unique="true" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetPersonalizationAllUsers" />
+        </set>
+    </class>
+</hibernate-mapping>

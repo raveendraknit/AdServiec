@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblBannerLogs" table="tblBannerLogs" schema="dbo" catalog="AddManager">
+        <id name="logId" type="string">
+            <column name="LogID" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tblBanners" class="com.sdk.service.TblBanners" fetch="select">
+            <column name="BannerID" length="36" />
+        </many-to-one>
+        <many-to-one name="tblLocations" class="com.sdk.service.TblLocations" fetch="select">
+            <column name="LocationID" length="36" />
+        </many-to-one>
+        <property name="dateHour" type="timestamp">
+            <column name="DateHour" length="23" />
+        </property>
+        <property name="impressions" type="java.lang.Long">
+            <column name="Impressions" />
+        </property>
+        <property name="clicks" type="java.lang.Long">
+            <column name="Clicks" />
+        </property>
+        <property name="convertions" type="java.lang.Long">
+            <column name="Convertions" />
+        </property>
+        <property name="call" type="java.lang.Long">
+            <column name="Call" />
+        </property>
+        <property name="web" type="java.lang.Long">
+            <column name="Web" />
+        </property>
+        <property name="coupon" type="java.lang.Long">
+            <column name="Coupon" />
+        </property>
+        <property name="driveTo" type="java.lang.Long">
+            <column name="DriveTo" />
+        </property>
+        <property name="walkTo" type="java.lang.Long">
+            <column name="WalkTo" />
+        </property>
+        <property name="showOnMap" type="java.lang.Long">
+            <column name="ShowOnMap" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,100 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @class
+<span class='line'>  3</span>  * API Configuration parameters. This static object must be edited to add your credentials (your DDS Key from
+<span class='line'>  4</span>  * from the deCarta DevZone) to use the API.
+<span class='line'>  5</span>  * 
+<span class='line'>  6</span>  * @description API Configuration parameters.
+<span class='line'>  7</span>  */</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">deCarta.Core.Configuration</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="COMM">/** The client name you were provided from the deCarta DevZone 
+<span class='line'> 11</span>      *  for API access (String) */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="NAME">clientName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="COMM">/** The client password you were provided from the deCarta DevZone 
+<span class='line'> 14</span>      *  for API access (String) */</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="NAME">clientPassword</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">    </span><span class="COMM">/** Url for DDS WebServices (String)*/</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"http://ws.decarta.com/openls/JSON"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="COMM">/** Localizer values */</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="NAME">language</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'EN'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="COMM">/** Localizer values */</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="NAME">country</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'US'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="COMM">/** Projection system, valid values are: EPSG:3857 (Spherical) or EPSG:3395 (ellipsoidal) */</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">projection</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'EPSG:3857'</span><span class="PUNC">,</span><span class="COMM">//'EPSG:3395', </span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">    </span><span class="COMM">/** Path to image resources */</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">imgPath</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"img/"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="COMM">/** @ignore*/</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="NAME">metric</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="COMM">/** This flag can be used for debugging. By setting to &lt;em>true&lt;/em>,
+<span class='line'> 29</span>      *  all exceptions will be also displayed as alerts.
+<span class='line'> 30</span>      */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="NAME">vocalExceptions</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="COMM">/** Base z-index for overlays (int). Use this to control the base css index
+<span class='line'> 33</span>      * for any map overlays that are created. */</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">baseOvlZ</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="COMM">/** Array of tile serving hosts (Array of String) */</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="NAME">streetTileHosts</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"http://wsdds2-qa.sanjose.telcontar.com"</span><span class="PUNC">,</span><span class="STRN">"http://wsdds2-qa.sanjose.telcontar.com"</span><span class="PUNC">,</span><span class="STRN">"http://wsdds2-qa.sanjose.telcontar.com"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="COMM">/** Tile config used for standard resolution devices (String)*/</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="NAME">defaultConfig</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'global-decarta'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="COMM">/** enable traffic display if available */</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="NAME">showTraffic</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">    </span><span class="COMM">/** Tile config used for high res devices (String)*/</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">    </span><span class="NAME">defaultHighResConfig</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'global-decarta'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="COMM">/** Tile Config used in transparent tiles */</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">    </span><span class="NAME">defaultTransparentConfig</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'global-decarta-transparent'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="COMM">/** Tile Config used in traffic tiles */</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">    </span><span class="NAME">defaultTrafficConfig</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'traffic-usa1'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">    </span><span class="COMM">/** Resource base directory */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">    </span><span class="NAME">resourceBase</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'resources/'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">    </span><span class="COMM">/** Image packs to be loaded */</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">    </span><span class="NAME">baseImagePack</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'StdResImages.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">    </span><span class="COMM">/** Hi res image packs to be loaded*/</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">    </span><span class="NAME">baseHiResImagePack</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'HiResImages.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">    </span><span class="COMM">/** Additional Resources (Blocking) */</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">    </span><span class="NAME">additionalImagePacks</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="NAME">hiRes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">        </span><span class="NAME">loRes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">    </span><span class="COMM">/** Resource timeout, milliseconds */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="NAME">resourceTimeout</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">20000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">    </span><span class="COMM">/** Request timeout, milliseconds */</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">    </span><span class="NAME">requestTimeout</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">15000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">    </span><span class="COMM">/** Key for digital globe access (String)*/</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">    </span><span class="NAME">digitalGlobeKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">    </span><span class="COMM">/** Key for digital globe v3 access (v3, can only be used with spherical) */</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">    </span><span class="NAME">digitalGlobeConnectID</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">    </span><span class="COMM">/** Digital Globe url version. If set to 2, the new url format will be used IF the projection is Spherical*/</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">    </span><span class="NAME">DGUrlVersion</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="COMM">/** Array of hosts for DigitalGlobe satellite imagery (Array of String)*/</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">    </span><span class="NAME">digitalGlobeHosts</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">            </span><span class="STRN">'http://www1.globexplorer.com'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">            </span><span class="STRN">'http://www2.globexplorer.com'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">            </span><span class="STRN">'http://www3.globexplorer.com'</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">        </span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">    </span><span class="COMM">/** When &lt;em>true&lt;/em>, the map will use hardware acceleration, if available */</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">    </span><span class="NAME">useHardwareAcceleration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">    </span><span class="COMM">/** Build info */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">    </span><span class="NAME">buildDate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'@buildDate@'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">    </span><span class="COMM">/** Version number */</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">    </span><span class="NAME">version</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'3.0.8.@buildNum@'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">    </span><span class="COMM">/* force  port on the tile urls if server does not return a port in the init call */</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">    </span><span class="NAME">imagePort</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/*8080*/</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">    </span><span class="COMM">/* if true, sets the  TILE image URL to 'image-cache', else just 'image'  */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">    </span><span class="NAME">imageCache</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">    </span><span class="COMM">/* DDS dataset which goes into the TILE image URL */</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">    </span><span class="NAME">dataSet</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"navteq-world"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">    </span><span class="COMM">/* apiVersion used if server is in strict mode, else leave it null */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">    </span><span class="NAME">apiVersion</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">    </span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">    </span><span class="NAME">urlVersion</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'auto'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//1,auto</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="NAME">consolelogXML</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">    </span><span class="COMM">/** Use precaching if the tilestore supports it */</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">    </span><span class="NAME">usePrecaching</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="PUNC">}</span></pre></body></html>

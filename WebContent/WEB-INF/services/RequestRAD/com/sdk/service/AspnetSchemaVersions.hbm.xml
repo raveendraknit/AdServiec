@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetSchemaVersions" table="aspnet_SchemaVersions" schema="dbo" catalog="AddManager">
+        <composite-id name="id" class="com.sdk.service.AspnetSchemaVersionsId">
+            <key-property name="feature" type="serializable">
+                <column name="Feature" />
+            </key-property>
+            <key-property name="compatibleSchemaVersion" type="serializable">
+                <column name="CompatibleSchemaVersion" />
+            </key-property>
+        </composite-id>
+        <property name="isCurrentVersion" type="boolean">
+            <column name="IsCurrentVersion" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetProfile" table="aspnet_Profile" schema="dbo" catalog="AddManager">
+        <id name="userId" type="string">
+            <column name="UserId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="aspnetUsers" class="com.sdk.service.AspnetUsers" update="false" insert="false" fetch="select">
+            <column name="UserId" length="36" not-null="true" unique="true" />
+        </many-to-one>
+        <property name="propertyNames" type="serializable">
+            <column name="PropertyNames" not-null="true" />
+        </property>
+        <property name="propertyValuesString" type="serializable">
+            <column name="PropertyValuesString" not-null="true" />
+        </property>
+        <property name="propertyValuesBinary" type="binary">
+            <column name="PropertyValuesBinary" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="LastUpdatedDate" length="23" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

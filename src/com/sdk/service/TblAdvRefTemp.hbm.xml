@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 12, 2014 7:18:05 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblAdvRefTemp" table="tblAdvRefTemp"  >
+        <composite-id name="id" class="addmanager.TblAdvRefTempId">
+            <key-property name="advReferenceId" type="string">
+                <column name="AdvReferenceID" length="36" />
+            </key-property>
+            <key-property name="bannerId" type="string">
+                <column name="BannerId" length="50" />
+            </key-property>
+            <key-property name="distance" type="java.lang.Integer">
+                <column name="Distance" />
+            </key-property>
+            <key-property name="priority" type="java.lang.Integer">
+                <column name="Priority" />
+            </key-property>
+            <key-property name="advRefId" type="string">
+                <column name="AdvRefID" length="100" />
+            </key-property>
+            <key-property name="eventMillis" type="big_decimal">
+                <column name="eventMillis" precision="20" scale="0" />
+            </key-property>
+            <key-property name="locationId" type="string">
+                <column name="LocationId" length="50" />
+            </key-property>
+            <key-property name="geomaxradius" type="java.lang.Integer">
+                <column name="Geomaxradius" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

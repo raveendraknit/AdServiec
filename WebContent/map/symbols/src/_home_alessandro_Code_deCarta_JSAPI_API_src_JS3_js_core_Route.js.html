@@ -1,0 +1,172 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @private
+<span class='line'>  3</span>  * WARNING: This class is not built, so the documentation has been modified to never refer to it.
+<span class='line'>  4</span>  *
+<span class='line'>  5</span>  * The route object passed as the parameter to the callback function when using the
+<span class='line'>  6</span>  * {@link deCarta.Core.Routing}:execute() method. This route object contains
+<span class='line'>  7</span>  * the route information returned by DDS Web Services in response to a route request.
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * The structure of the Route class is as follows:
+<span class='line'> 10</span>  * &lt;pre>
+<span class='line'> 11</span> deCarta.Core.Route = {
+<span class='line'> 12</span>     RouteGeometry:{ //Contains the route geometry
+<span class='line'> 13</span>         LineString: { //Contains an array of positions
+<span class='line'> 14</span>             pos:[] //Array of positions represented as space separated lat lon pairs (ex: "lat lon")
+<span class='line'> 15</span>         }
+<span class='line'> 16</span>     },
+<span class='line'> 17</span>     RouteInstructionsList:{ //Instruction list for the route
+<span class='line'> 18</span>         RouteInstruction:[ //Array of instruction objects
+<span class='line'> 19</span>             {
+<span class='line'> 20</span>                 distance:{ //Distance along the route
+<span class='line'> 21</span>                     value: 0 //Value of the distance object
+<span class='line'> 22</span>                 },
+<span class='line'> 23</span>                 duration: '', //Duration of the manouver
+<span class='line'> 24</span>                 description: '', //Description of the maneuver
+<span class='line'> 25</span>                 Instruction: '', //A human readable description of this route maneuver.
+<span class='line'> 26</span>                 tour: 0, //Which waypoint this maneuver is associated with in an optimized route.
+<span class='line'> 27</span>                 Point: '' //A lat long pair (space separated)
+<span class='line'> 28</span>             },
+<span class='line'> 29</span>         ],
+<span class='line'> 30</span>         lang: '' //Language for this route
+<span class='line'> 31</span>     },
+<span class='line'> 32</span>     RouteSummary:{ //Summary of the route
+<span class='line'> 33</span>         BoundingBox:{ //Contains positions describing a bounding box for the route
+<span class='line'> 34</span>             pos: [{ //Array of two positions, top left amd bottom right
+<span class='line'> 35</span>                 content: '' //Content of each position, as a space separated lat long pair
+<span class='line'> 36</span>             }]
+<span class='line'> 37</span>         },
+<span class='line'> 38</span>         TotalDistance:{ //Object representing the total distance covered by the route
+<span class='line'> 39</span>             uom: '', //Unit of measure
+<span class='line'> 40</span>             value: 0 //Value of the distance
+<span class='line'> 41</span>         },
+<span class='line'> 42</span>         TotalTime: '' //Total time required
+<span class='line'> 43</span>     },
+<span class='line'> 44</span>     RouteHandle:{ //Handle to the route (can be used for later queries)
+<span class='line'> 45</span>         serviceID: '', //ServiceID
+<span class='line'> 46</span>         routeID: '' //RouteID
+<span class='line'> 47</span>     }
+<span class='line'> 48</span> } 
+<span class='line'> 49</span>  * &lt;/pre>
+<span class='line'> 50</span>  *
+<span class='line'> 51</span>  * @description Route object returned from a route calculation
+<span class='line'> 52</span>  *
+<span class='line'> 53</span>  * @see deCarta.Core.Routing
+<span class='line'> 54</span>  */</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="NAME">deCarta.Core.Route</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 58</span>      * Contains the route geometry
+<span class='line'> 59</span>      */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="NAME">RouteGeometry</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 62</span>          * Contains an array of positions
+<span class='line'> 63</span>          */</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">LineString</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'> 66</span>              * Array of positions represented as space separated lat long pairs
+<span class='line'> 67</span>              */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">            </span><span class="NAME">pos</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 72</span>      * Instruction list for the route
+<span class='line'> 73</span>      */</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">    </span><span class="NAME">RouteInstructionsList</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 76</span>          * Array of instruction objects
+<span class='line'> 77</span>          */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">        </span><span class="NAME">RouteInstruction</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">                </span><span class="COMM">/**
+<span class='line'> 81</span>                  * Distance along the route
+<span class='line'> 82</span>                  */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">                </span><span class="NAME">distance</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">                    </span><span class="COMM">/**
+<span class='line'> 85</span>                      * Value of the distance object
+<span class='line'> 86</span>                      */</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">                    </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">                </span><span class="COMM">/**
+<span class='line'> 90</span>                  * Duration of the manouver
+<span class='line'> 91</span>                  */</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">                </span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">                </span><span class="COMM">/**
+<span class='line'> 94</span>                  * Description of the manouver
+<span class='line'> 95</span>                  */</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">                </span><span class="NAME">description</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">                </span><span class="COMM">/**
+<span class='line'> 98</span>                  * A human readable description of this route maneuver.
+<span class='line'> 99</span>                  */</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">                </span><span class="NAME">Instruction</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">                </span><span class="COMM">/**
+<span class='line'>102</span>                  * Which waypoint this maneuver is associated with in an optimized route.
+<span class='line'>103</span>                  */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">                </span><span class="NAME">tour</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">                </span><span class="COMM">/**
+<span class='line'>106</span>                  * A lat long pair (space separated)
+<span class='line'>107</span>                  */</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">                </span><span class="NAME">Point</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">        </span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>112</span>          * Language for this route
+<span class='line'>113</span>          */</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">        </span><span class="NAME">lang</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>117</span>      * Summary of the route
+<span class='line'>118</span>      */</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">    </span><span class="NAME">RouteSummary</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>121</span>          * Contains positions describing a bounding box for the route
+<span class='line'>122</span>          */</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">        </span><span class="NAME">BoundingBox</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>125</span>              * Array of two positions, top left amd bottom right
+<span class='line'>126</span>              */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">            </span><span class="NAME">pos</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">                </span><span class="COMM">/**
+<span class='line'>129</span>                  * Content of each position, as a space separated lat long pair
+<span class='line'>130</span>                  */</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">                </span><span class="NAME">content</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>135</span>          * Object representing the total distance covered by the route
+<span class='line'>136</span>          */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="NAME">TotalDistance</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>139</span>              * Unit of measure
+<span class='line'>140</span>              */</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">            </span><span class="NAME">uom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>143</span>              * Value of the distance
+<span class='line'>144</span>              */</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">            </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>148</span>          * Total time required
+<span class='line'>149</span>          */</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">        </span><span class="NAME">TotalTime</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>153</span>      * Handle to the route (can be used for later queries)
+<span class='line'>154</span>      */</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">    </span><span class="NAME">RouteHandle</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>157</span>          * ServiceID
+<span class='line'>158</span>          */</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">        </span><span class="NAME">serviceID</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>161</span>          * RouteID
+<span class='line'>162</span>          */</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">        </span><span class="NAME">routeID</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="PUNC">}</span></pre></body></html>

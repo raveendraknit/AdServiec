@@ -1,0 +1,306 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @class
+<span class='line'>  3</span>  * Add a scale control to the map.
+<span class='line'>  4</span>  * This class inherits from {@link deCarta.UI.MapControl}.
+<span class='line'>  5</span>  *
+<span class='line'>  6</span>  * @description Scale Map Control
+<span class='line'>  7</span>  *
+<span class='line'>  8</span>  * The ScaleControl provides a control to indicate measure of distance.
+<span class='line'>  9</span>  * This class inherits from {@link deCarta.UI.MapControl}.
+<span class='line'> 10</span>  * @param opt Options A list of options with which to initialize the ScaleControl.
+<span class='line'> 11</span>  * Valid options are:
+<span class='line'> 12</span>  * &lt;ul>
+<span class='line'> 13</span>  *   &lt;li>(string) position: (Inherited from {@link deCarta.UI.MapControl}), which should
+<span class='line'> 14</span>  *       be set to one of: 'topLeft', 'topRight', 'bottomLeft', 'bottomRight'
+<span class='line'> 15</span>  *       (default='bottomRight')&lt;/li>
+<span class='line'> 16</span>  * &lt;/ul>
+<span class='line'> 17</span>  * To style this control, edit the corresponding CSS file in the css/UI dir.
+<span class='line'> 18</span>  * @see deCarta.UI.MapControl
+<span class='line'> 19</span>  * @see deCarta.Core.Map
+<span class='line'> 20</span>  */</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="NAME">deCarta.UI.ScaleControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">opt</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="NAME">this.options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">        </span><span class="NAME">layout</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">existingControls</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">top</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">left</span><span class="PUNC">:</span><span class="WHIT">  </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">        </span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"bottomRight"</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    
+<span class='line'> 29</span>     </span><span class="NAME">this.options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">deCarta.Utilities.extendObject</span><span class="PUNC">(</span><span class="NAME">this.options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="NAME">deCarta.UI.MapControl.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'> 31</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="COMM">//Define methods to extend CopyrightControl</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="NAME">deCarta.UI.ScaleControl.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	
+<span class='line'> 36</span>     </span><span class="COMM">/**
+<span class='line'> 37</span> 	 * @private
+<span class='line'> 38</span> 	 */</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">ready</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 42</span> 	 * @private
+<span class='line'> 43</span>      */</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="NAME">initElements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">   
+<span class='line'> 45</span> 
+<span class='line'> 46</span>         </span><span class="NAME">this.domElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'div'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">        </span><span class="NAME">this.contentElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'div'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">        </span><span class="NAME">this.domElement.style.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'absolute'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="NAME">this.contentElement.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'deCarta-control-scale'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.options.cssClass</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">this.contentElement.className</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">            </span><span class="NAME">this.contentElement.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.contentElement.className</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">' '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.options.cssClass</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">            </span><span class="NAME">this.domElement.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"domElement"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="WHIT">        </span><span class="NAME">this.textImperial</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="NAME">this.scaleImperial</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">        </span><span class="NAME">this.scaleImperial.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"scaleImperial"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    
+<span class='line'> 59</span>         </span><span class="NAME">this.textMetric</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">        </span><span class="NAME">this.scaleMetric</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="NAME">this.scaleMetric.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"scaleMetric"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">        
+<span class='line'> 63</span>         </span><span class="NAME">this.contentElement.appendChild</span><span class="PUNC">(</span><span class="NAME">this.textImperial</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">this.contentElement.appendChild</span><span class="PUNC">(</span><span class="NAME">this.scaleImperial</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="NAME">this.contentElement.appendChild</span><span class="PUNC">(</span><span class="NAME">this.scaleMetric</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">        </span><span class="NAME">this.contentElement.appendChild</span><span class="PUNC">(</span><span class="NAME">this.textMetric</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> 
+<span class='line'> 68</span> </span><span class="WHIT">        </span><span class="NAME">this.setScale</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">            </span><span class="NAME">center</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.map.center</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">            </span><span class="NAME">zoom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.options.map.zoom</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="WHIT">        </span><span class="NAME">this.ready</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'> 74</span>         
+<span class='line'> 75</span>         </span><span class="NAME">this.options.map.onzoomend</span><span class="PUNC">(</span><span class="NAME">this.setScale.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">        </span><span class="NAME">this.options.map.onmoveend</span><span class="PUNC">(</span><span class="NAME">this.setScale.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">        
+<span class='line'> 78</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">    </span><span class="NAME">setScale</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">params</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.domElement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">scale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.calculate</span><span class="PUNC">(</span><span class="NAME">params.center</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params.zoom</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">        </span><span class="NAME">this.textImperial.innerHTML</span><span class="PUNC">=</span><span class="NAME">scale.feetDisp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">        </span><span class="NAME">this.scaleImperial.style.width</span><span class="PUNC">=</span><span class="NAME">scale.widthFeet</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">        </span><span class="NAME">this.scaleMetric.style.width</span><span class="PUNC">=</span><span class="NAME">scale.widthMeter</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">        </span><span class="NAME">this.textMetric.innerHTML</span><span class="PUNC">=</span><span class="NAME">scale.meterDisp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 91</span> 	 * This render method implements the render method from the 
+<span class='line'> 92</span> 	 * {@link deCarta.UI.MapControl} base class.
+<span class='line'> 93</span> 	 * It is responsible for rendering this control on the map,
+<span class='line'> 94</span> 	 * and produces a single HTML Dom Element containing the whole
+<span class='line'> 95</span> 	 * GUI for the control.
+<span class='line'> 96</span> 	 * @param {string} container The DOM element within which the control is rendered. 
+<span class='line'> 97</span> 	 */</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">    </span><span class="NAME">render</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">container</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.ready</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.initElements</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="NAME">this.domElement.appendChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">this.contentElement</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">        </span><span class="NAME">container.appendChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">this.domElement</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">        </span><span class="NAME">this.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.domElement.offsetWidth</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">        </span><span class="NAME">this.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.domElement.offsetHeight</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">    
+<span class='line'>106</span>     </span><span class="NAME">calculate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">center</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">z</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">normz</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">20</span><span class="PUNC">-</span><span class="NAME">deCarta.Utilities.normalizeZoom</span><span class="PUNC">(</span><span class="NAME">z</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">metersPerPixel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">deCarta.Utilities.metersPerPixelAtZoom</span><span class="PUNC">(</span><span class="NAME">center</span><span class="PUNC">,</span><span class="NAME">z</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        
+<span class='line'>110</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">meterDisp</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">meterDisp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">feetDisp</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">feetDisp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">widthMeter</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">meter</span><span class="PUNC">/</span><span class="NAME">metersPerPixel</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">widthFeet</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">feet</span><span class="PUNC">*</span><span class="NAME">deCarta.ScaleControl_Params.meterPerFeet</span><span class="PUNC">/</span><span class="NAME">metersPerPixel</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">normz</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">widthMeter</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">widthFeet</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">            </span><span class="NAME">normz</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">meterDisp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">feetDisp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">            </span><span class="NAME">widthMeter</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">meter</span><span class="PUNC">/</span><span class="NAME">metersPerPixel</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">            </span><span class="NAME">widthFeet</span><span class="PUNC">=</span><span class="NAME">deCarta.ScaleControl_Params.Scale</span><span class="PUNC">[</span><span class="NAME">normz</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">feet</span><span class="PUNC">*</span><span class="NAME">deCarta.ScaleControl_Params.meterPerFeet</span><span class="PUNC">/</span><span class="NAME">metersPerPixel</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">widthMeter</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">widthFeet</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">meters</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">metersPerPixel</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">feet</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">meters</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">deCarta.ScaleControl_Params.meterPerFeet</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">feet</span><span class="PUNC">*</span><span class="NUMB">1000</span><span class="PUNC">)</span><span class="PUNC">/</span><span class="NUMB">1000</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" ft"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">meters</span><span class="PUNC">*</span><span class="NUMB">1000</span><span class="PUNC">)</span><span class="PUNC">/</span><span class="NUMB">1000</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" m"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">            </span><span class="NAME">widthFeet</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">            </span><span class="NAME">widthMeter</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">feetDisp</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">meterDisp</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">            </span><span class="NAME">widthFeet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">widthFeet</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">            </span><span class="NAME">widthMeter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">widthMeter</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">      
+<span class='line'>139</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//end CopyrightControl prototype</span><span class="WHIT">
+<span class='line'>142</span> 
+<span class='line'>143</span> </span><span class="NAME">deCarta.ScaleControl_Params</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">    </span><span class="NAME">Scale</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">25</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//20</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"25 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"10 m"</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">            
+<span class='line'>151</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//19</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"50 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"10 m"</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">            
+<span class='line'>158</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//18</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"100 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">25</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"25 m"</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">            
+<span class='line'>165</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">200</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//17</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"200 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"50 m"</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">            
+<span class='line'>172</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">500</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//16</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"500 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"100 m"</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">            
+<span class='line'>179</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//15</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1000 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">200</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"200 m"</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">            
+<span class='line'>186</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//14</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"2000 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">500</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"500 m"</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">            
+<span class='line'>193</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//13</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"2000 ft"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1 km"</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">            
+<span class='line'>200</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">5280</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//12</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"2 km"</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">            
+<span class='line'>207</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10560</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//11</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"2 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">5000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"5 km"</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">            
+<span class='line'>214</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">26400</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//10</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"5 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"10 km"</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">            
+<span class='line'>221</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">52800</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//9</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"10 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">25000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"25 km"</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">            
+<span class='line'>228</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">132000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//8</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"25 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">50000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"50 km"</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">            
+<span class='line'>235</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">264000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//7</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"50 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">100000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"100 km"</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">            
+<span class='line'>242</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">528000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//6</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"100 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">200000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"200 km"</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">            
+<span class='line'>249</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1056000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//5</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"200 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">300000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"300 km"</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">            
+<span class='line'>256</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1584000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//4</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"300 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">500000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"500 km"</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">            
+<span class='line'>263</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2640000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//3</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"500 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">600000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"600 km"</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">            
+<span class='line'>270</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">5280000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//2</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1000 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1000000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1000 km"</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">            
+<span class='line'>277</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">5280000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//1</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1000 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1000000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1000 km"</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">            
+<span class='line'>284</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">            </span><span class="NAME">feet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">5280000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//0</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">            </span><span class="NAME">feetDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1000 mi"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">            </span><span class="NAME">meter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1000000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">            </span><span class="NAME">meterDisp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"1000 km"</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">            
+<span class='line'>291</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">    </span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">    </span><span class="NAME">meterPerFeet</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0.3048</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> </span><span class="COMM">//Extend the MapControl with the additional methods for CopyrightControl</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="NAME">deCarta.UI.ScaleControl.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">deCarta.Utilities.inherit</span><span class="PUNC">(</span><span class="NAME">deCarta.UI.ScaleControl.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">deCarta.UI.MapControl.prototype</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span> 
+<span class='line'>299</span> </span></pre></body></html>

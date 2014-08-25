@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblSysCompanies" table="tblSysCompanies" schema="dbo" catalog="AddManager">
+        <id name="companyId" type="int">
+            <column name="CompanyID" />
+            <generator class="assigned" />
+        </id>
+        <property name="companyName" type="string">
+            <column name="CompanyName" length="50" />
+        </property>
+        <property name="contactPerson" type="string">
+            <column name="ContactPerson" length="50" />
+        </property>
+        <property name="contactPhone" type="string">
+            <column name="ContactPhone" length="20" />
+        </property>
+        <property name="contactEmail" type="string">
+            <column name="ContactEmail" length="50" />
+        </property>
+        <property name="accountPerson" type="string">
+            <column name="AccountPerson" length="50" />
+        </property>
+        <property name="accountPhone" type="string">
+            <column name="AccountPhone" length="20" />
+        </property>
+        <property name="accountEmail" type="string">
+            <column name="AccountEmail" length="50" />
+        </property>
+        <property name="currency" type="string">
+            <column name="Currency" length="3" />
+        </property>
+        <property name="address1" type="string">
+            <column name="Address1" length="100" />
+        </property>
+        <property name="address2" type="string">
+            <column name="Address2" length="100" />
+        </property>
+        <property name="postCode" type="string">
+            <column name="PostCode" length="10" />
+        </property>
+        <property name="city" type="string">
+            <column name="City" length="50" />
+        </property>
+        <property name="province" type="string">
+            <column name="Province" length="50" />
+        </property>
+        <property name="country" type="string">
+            <column name="Country" length="50" />
+        </property>
+        <set name="tblSysBrandses" inverse="true">
+            <key>
+                <column name="CompanyID" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblSysBrands" />
+        </set>
+        <set name="tblSysUserCompanieses" inverse="true">
+            <key>
+                <column name="CompanyID" />
+            </key>
+            <one-to-many class="com.sdk.service.TblSysUserCompanies" />
+        </set>
+    </class>
+</hibernate-mapping>

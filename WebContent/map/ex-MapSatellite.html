@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Satellite Map Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        
+        
+        <script src="deCarta.JS3.min.js"></script>
+        <script src="Config.js"></script>
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Satellite Maps</h1>
+            DigitalGlobe Satellite Imagery integration.
+            <button onclick="satelliteLayer.toggle()">Toggle Satellite View</button><br />
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+
+        // see Config.js for details
+
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;         
+
+        // deCarta.Core.Configuration.projection = 'EPSG:3857';
+        //deCarta.Core.Configuration.urlVersion = 'auto';
+        
+        var satelliteLayer = new deCarta.Core.MapLayer({
+            tileStore: new deCarta.Core.SatelliteTileStore()
+        });        
+
+        window.map = new deCarta.Core.Map({
+            id: "mapContainer",
+            zoom: 9,
+            center: new deCarta.Core.Position(Config.position),
+            onReady: function(map){                
+                map.addLayer(satelliteLayer);
+            }
+        });
+ 
+    </script>
+</html>    

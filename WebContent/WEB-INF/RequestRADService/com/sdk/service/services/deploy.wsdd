@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from RequestRADService WSDL service -->
+
+  <service name="RequestRAD" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://services.service.sdk.com"/>
+      <parameter name="wsdlServiceElement" value="RequestRADService"/>
+      <parameter name="schemaQualified" value="http://service.sdk.com,http://services.service.sdk.com"/>
+      <parameter name="wsdlServicePort" value="RequestRAD"/>
+      <parameter name="className" value="com.sdk.service.services.RequestRAD"/>
+      <parameter name="wsdlPortType" value="RequestRAD"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://services.service.sdk.com" name="main" qname="operNS:main" soapAction="">
+        <parameter xmlns:pns="http://services.service.sdk.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:args" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://services.service.sdk.com" xmlns:retNS="http://services.service.sdk.com" xmlns:rtns="http://services.service.sdk.com" name="getRad" qname="operNS:getRad" returnQName="retNS:getRadReturn" returnType="rtns:RAd" soapAction="">
+        <parameter xmlns:pns="http://services.service.sdk.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:rAdId" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="getRad main"/>
+
+      <arrayMapping xmlns:ns="http://services.service.sdk.com" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:ArrayOf_xsd_anyType" type="java:java.lang.Object[]" innerType="cmp-ns:anyType" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://services.service.sdk.com" qname="ns:RAd" type="java:com.sdk.service.services.RAd" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://service.sdk.com" qname="ns:TblSysCategories" type="java:com.sdk.service.TblSysCategories" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://services.service.sdk.com" qname="ns:&gt;getRad" type="java:com.sdk.service.services.GetRad" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <arrayMapping xmlns:ns="http://services.service.sdk.com" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:&gt;main" type="java:java.lang.String[]" innerType="cmp-ns:string" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://service.sdk.com" qname="ns:TblSysCompanies" type="java:com.sdk.service.TblSysCompanies" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://service.sdk.com" qname="ns:TblSysBrands" type="java:com.sdk.service.TblSysBrands" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://services.service.sdk.com" qname="ns:&gt;getRadResponse" type="java:com.sdk.service.services.GetRadResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://services.service.sdk.com" qname="ns:&gt;mainResponse" type="java:com.sdk.service.services.MainResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>

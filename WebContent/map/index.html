@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:800,700' rel='stylesheet' type='text/css'>
+        <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+        <title>deCarta JS3</title>
+        <link rel="stylesheet" type="text/css" href="prettify/prettify.css">
+        <link rel="stylesheet" type="text/css" href="css/default.css">
+        <script src="prettify/prettify.js" type="text/javascript"></script>
+        <style>
+            #index a{
+                width:195px;
+                padding:5px;
+                display:block;
+                margin:0;
+                padding-left:15px;
+                color:#333;                
+            }
+            #index a:hover{
+            }
+            #index{
+                position: fixed;
+                background-color:#fff;
+            }
+            #index .main_index_header{
+                font-size:15px;
+                font-weight:bold;
+                width:205px;
+                padding-left:5px;
+            }
+            p.new{
+                position:relative;
+            }
+            p.new:before{
+                content:'!';
+                color: white;
+                background-color: darkred;
+                border:2px solid white;
+                -moz-box-shadow:    1px 1px 2px 2px rgba(77,77,77,0.6);
+                -webkit-box-shadow: 1px 1px 2px 2px rgba(77,77,77,0.6);
+                box-shadow:         1px 1px 2px 2px rgba(77,77,77,0.6);
+                padding: 10px;
+                height: 100%;
+                font-size: 24px;
+                font-weight: bold;
+                float: left;
+                margin-left: 0;
+                margin-right: 10px;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body onload="prettyPrint();">
+        <div id="index">
+            <div class="accordion_panel">
+                <a href="#getting_started" class="main_index_header">Getting Started</a>
+                <a href="#overview">Overview</a>
+                <a href="#authentication">Authentication</a>
+                <a href="#rendering">Rendering performance</a>
+                <a href="#performance">Other performance tips</a>
+                <a href="#function_scope">Function Scope</a>
+                <a href="#parameter_passing">Parameter Passing Format</a>
+            </div>
+            <div class="accordion_panel">
+                <a href="#examples" class="main_index_header">Code Examples</a>
+                <a href="#basic_map">Basic Map</a>
+                <a href="#map_controls">Map UI Controls</a>
+                <a href="#events">Map Events</a>
+                <a href="#shapes">Shape Rendering</a>
+                <a href="#pins">Pins on Map</a>
+                <a href="#geocoding">Geocoding (forward / reverse)</a>
+                <a href="#routing">Routing</a>
+                <a href="#poi">POI Search</a>
+                <a href="#custom_layers">Map Custom Layers</a>
+                <a href="#map_animations">Map Animations</a>
+            </div>
+            <div class="accordion_panel">
+                <a href="#browser_support" class="main_index_header">Browser / device support</a>
+            </div>
+            <div class="accordion_panel">
+                <a href="files.html" class="main_index_header">API Reference Docs</a>
+            </div>
+        </div>
+
+        <div id="" class="summarypagecontent">
+            <br>
+            <h1 class="title">deCarta Javascript API v3  <sup style="font-size:14px">Version 3.0.9</sup>
+                <img src="img/HTML5_Logo_64.png" style="float:right">
+            </h1>
+            <h2 class="summarypagesection"><a name="getting_started"></a>Getting started</h2>
+            <h3 class="summarypagesubsection"><a name="overview"></a>Overview</h3>
+            <p>
+                The deCarta JavaScript API v.3 is a lightweight, full-featured,
+                highly configurable, high performance, HTML5 compliant framework for
+                building state of the art LBS applications for desktop and smart phone browsers.
+                The v3 API has a variety of new pluggable UI components for both mobile and desktop
+                browsers.
+                The advanced rendering algorithms power a web based user experience on par with any native user experience.
+                The code for the API is packaged with this documentation.
+                We suggest that you read through this page and play around with the examples
+                to learn what is possible with the API.
+                Always feel free to send us any questions you may have and to report any bugs
+                that you find.
+                You need to include the API in
+                a script tag in the HEAD of each page while developing your application.
+            </p>
+            <pre class="prettyprint">
+&lt;!--debug version --&gt;
+&lt;script src="deCarta.JS3.js"&gt&lt;/script&gt;
+&lt;!--release / compressed version --&gt;
+&lt;script src="deCarta.JS3.min.js"&gt;&lt;/script&gt;
+            </pre>
+            <p class="new">
+                Starting with version 3.0.3, all CSS rules for the API have been externalized in their own file.
+                This makes it much easier to edit the visual aspects of the api. 
+                So starting with the 3.0.3 release, you will need to include the following in your html document:                             
+            </p>
+            <pre class="prettyprint">
+&lt;link rel="stylesheet" href="css/core.css"&gt;
+            </pre>
+            <p>
+
+                Using this JavaScript based API requires including the following code snippet
+                in the BODY tag of the HTML page (with variable height and width).  This is the
+                element of the page where the map and its controls will be rendered.
+            </p>
+            <pre class="prettyprint lang-html">
+//CSS flexible percentage dimensions (full screen)
+&lt;div id="map" style="width:100%; height:100%;"&gt;
+
+//CSS flexible absolute px dimensions (full screen)
+&lt;div id="map" style="position:absolute;left:4px;right:4px;top:4px;bottom:4px;"&gt;
+
+//CSS exact px dimensions
+&lt;div id="map" style="width:800px; height:600px;"&gt;
+            </pre>
+            <p>
+                You can save the source of the examples and use them as a starting point for your application.
+            </p>
+            <h3 class="summarypagesubsection"><a name="authentication"></a>Authentication</h3>
+
+            <p>
+                The deCarta JavaScript API requires authentication with the clientName
+                and clientPassword you received when registering on the deCarta
+                Developer Zone. These are distinct from the email address and password
+                that you use to login to the deCarta Developer Zone web portal.
+                You can set up your clientName and clientPassword by assigning the
+                appropriate values to the deCarta.Core.Configuration object.
+            </p>
+
+            <pre class="prettyprint">deCarta.Core.Configuration.clientName = ""; // Input clientName between quotes<br />deCarta.Core.Configuration.clientPassword = ""; // Input clientPass between quotes<br /></pre>
+
+            <p>
+                NOTE ON SECURITY : We are in the process of adding HTTP REFFERRER checking to associate your credentials
+                with the server of request origin.  The devzone will allow you to configure your security policies through
+                the web portal under the "MY ACCOUNT" section. Stay tuned.
+            </p>
+
+
+            <h3 class="summarypagesubsection"><a name="rendering"></a>A Note on Rendering and Hardware Acceleration</h3>
+
+            <p>
+                The deCarta v.3 API enables (where available) hardware acceleration by default. On most modern browsers this will 
+                result in dramatic performance increases. Please note though that in some browser versions support for hardware acceleration 
+                is sometimes not perfect. This may cause rendering artifacts, tearing, or other visual unpleasentness. In this case, you
+                can disable hardware acceleration by setting the appropriate flag in the configuration. 
+                <pre class="prettyprint">deCarta.Core.Configuration.useHardwareAcceleration = false;</pre>
+
+            </p>
+
+            <h3 class="summarypagesubsection"><a name="performance"></a>Other performance tips</h3>
+
+            <p>
+                The V3 API provides a tile precaching system that can increase percieved performance when activated. To save on bandwidth and CPU it is disabled by default, but it can be turned on (only for desktop browsers) by setting: 
+            </p>
+            <pre class="prettyprint">deCarta.Core.Configuration.usePrecaching = true;</pre>
+            <p>
+                When precaching is enabled, if the browser is not busy loading other resources the API will pre-request tiles at zoom levels above and below the current one, so that zooming operations will appear smoother. It is especially useful in conjuntion with continuous zooming.  
+
+            </p>            
+
+            <h3 class="summarypagesubsection"><a name="function_scope"></a>A
+                Note on Function Scope</h3>
+
+            <p>
+                Asynchronous JavaScript programming heavily relies on callback
+                functions. When they are called, these functions are within the local
+                scope of the object which received the response. This can be the cause
+                of several headaches. Take the following example. <br>
+            </p>
+
+            <pre class="prettyprint">var myObject = {<br>  importantValue: 42, //Necessary To Decode Response<br>  makeRequest: function(){<br>    AJAX.getResponse("http://my.service.net/", this.receiveResponse);<br>  },<br>  receiveResponse: function(response){<br>    //here we need to decode the response.<br>    //however, our importantValue is not defined!!<br>    alert(typeof this.importantValue); //says &#8216;undefined&#8217;<br>  }<br>}</pre>
+
+            <p>
+                The reason why our importantValue is not defined is that
+                myObject.receiveResponse is called from within the AJAX object, so the
+                this keyword applies to AJAX, not myObject. This can cause many issues,
+                and there are several ways to work around the problem. The deCarta
+                v3 API, which makes very heavy use of asynchronous calls, uses a
+                method called &#8220;binding&#8221; to ensure the scope of its callback functions
+                is correct. This method is common throughout many JavaScript libraries.
+                You can read more about it here:
+                <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind">https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind</a>
+            </p>
+
+            <p>
+                If not natively supported, the deCarta JS API v3 provides it&#8217;s own implementation of the bind() function.
+                How do we use function binding? Here is our simple example, updated to use function binding: <br>
+            </p>
+
+            <pre class="prettyprint">var myObject = {<br><br>  importantValue: 42, //Necessary To Decode Response<br>  makeRequest: function(){<br>    AJAX.getResponse("http://my.service.net/", this.receiveResponse.bind(this));<br>  },<br>  receiveResponse: function(response){<br>    //here we need to decode the response.<br>    alert(this.importantValue); //says 42!<br>  }<br>}<br></pre>
+
+            <p>
+                This is a very simple example of function binding. There is more that
+                can be done, for example by binding specific parameters to a function
+                call. Read more about it here:
+                <a href="http://www.prototypejs.org/api/function/bind">http://www.prototypejs.org/api/function/bind</a>
+            </p>
+            <h3 class="summarypagesubsection"><a name="parameter_passing"></a>Parameter
+                Passing Format</h3>
+
+            <p>
+                Throughout the API you will notice that most (possibly all) methods
+                accept a single object parameter. This is a common technique in modern
+                JavaScript, as it presents several benefits over &#8220;normal&#8221; parameter
+                passing. For instance, you can omit unnecessary parameters without a
+                bunch of
+                ugly &#8220;null&#8221; values in your method call. It is easier to grow the
+                library without changing method signatures. Your&nbsp; arguments
+                can be named, and therefore passed in any order you like. 
+            </p>
+            <h2 class="summarypagesection"><a name="examples"></a>Code Examples</h2>
+
+            <h2 class="summarypagesubsection"><a name="basic_map"></a>Basic Map</h2>
+            <p>
+                The most basic building block of any location application is a map. The Map object provides this basic functionality. To create the simplest of Maps you need only to follow the example below. A Map object only needs to be authenticated one time per session, after you initialize the map and prior to any usage of the Map object. This brings up a map display centered on the supplied Position object (aka. Latitude and Longitude coordinate).
+                By default a basic draggable map is created. To maneuver around the map, simply
+                drag the map around. This will fluidly pan the map in whatever direction you drag. To recenter the map on a particular location, double click the map at that location.
+            </p>
+
+            <p>
+
+                DigitalGlobe satellite imagery is available for satellite and "hybrid" map display, subject to the terms of the deCarta Developer Zone and Hosted Web Services User Agreement. The API contains an access key for DigitalGlobe's imagery service -- though note that this can be used for development purposes only! The license terms prohibit using this development key for a production application or for any commercial use; there's a charge for all production use of DigitalGlobe imagery. You can get a production key of your own from DigitalGlobe, or just request it from deCarta when you're ready to move your application to production and we'll get one for you.
+            </p>
+
+
+            <a href="ex-BasicMap.html" class="pretop" target="_blank">
+                <img src="img/launch.png">
+            </a>
+            <pre class="prettyprint">
+window.map = new deCarta.Core.Map({
+    zoom: 12,
+    id: "mapContainer",
+    center: new deCarta.Core.Position("37.337520,-121.890091")
+});
+            </pre>
+            <div class="moreTop"><img src="img/more.png"></div>
+            <div class="more">
+                <ul>
+                    <li>
+                        <a href="ex-MapStyles.html" target="_blank">Map Styles Example </a> demo of our various map styles
+                    </li>    
+                    <li>
+                        <a href="ex-MapSatellite.html" target="_blank">Satellite Imagery </a> DigitalGlobe Satellite imagery.
+                    </li>    
+                </ul>
+            </div>
+
+
+            <h2 class="summarypagesubsection"><a name="map_controls"></a>Map UI Controls</h2>
+            <p>
+                In this more advanced example we show the use of the positioning API for floating and stacking the controls. The 'position' property controls where the control will be placed. For example, 'topLeft' will  make the control be placed first at the top, then the left-most available place. 'rightBottom' will make the control be placed first on the right, then rhe lowest available place. When map.options.autoResize==true && zoomControl.options.autoResize==true, zoomControl's
+                pillar part will disappear when there is insufficient available height.
+
+            </p>
+            <p>
+                We have packaged the UI Controls in a different folder and namespace which allows
+                you to only use the controls you need.  You will see that for each control there is an associated css file in <code>css/UI</code>. We have externalized the CSS for the controls so you can modify the look and feel through standard CSS styling.  This design paradigm also allows you to author your own controls by following the pattern laid out in the existing controls, extending the MapControl base class.
+            </p>
+
+            <a href="ex-MapControls.html" class="pretop" target="_blank">
+                <img src="img/launch.png">
+            </a>
+            <pre class="prettyprint">
+    var controls = [];
+
+    if(deCarta.Window.isMobile()){
+        controls.push(new deCarta.UI.ZoomControlMobile({position: 'bottomRight'}));
+        controls.push(new deCarta.UI.SelectControl({position: 'leftTop'}));
+        controls.push(new deCarta.UI.LocateControl({position: 'rightTop'}));
+    } else {
+        controls.push(new deCarta.UI.OverviewControl({position: 'rightBottom'}));
+        controls.push(new deCarta.UI.PanControl({position: 'leftTop'}));
+        controls.push(new deCarta.UI.ScaleControl({position: 'bottomLeft'}));
+        controls.push(new deCarta.UI.ZoomControl({position: 'leftTop'}));
+        controls.push(new deCarta.UI.SelectControl({position: 'leftTop'}));
+        controls.push(new deCarta.UI.LocateControl({position: 'rightTop'}));
+    }
+
+    window.map = new deCarta.Core.Map({
+        id: "mapContainer",
+        center: new deCarta.Core.Position(Config.position),
+        controls: controls
+    });
+            </pre>
+
+
+
+
+
+
+
+
+            <div class="moreTop"><img src="img/more.png"></div>
+            <div class="more">
+                <ul>
+                    <li>
+                        <a href="ex-MapControlsCSS.html" target="_blank">CSS Media Queries </a> Using advanced CSS to position and display the controls.
+                    </li>    
+                </ul>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <h2 class="summarypagesubsection"><a name="events"></a>Map Events</h2>
+            <p>
+                The JS API v3 provides a full set of events for interacting with the map and map items programatically. This is a full list of the currently available events:
+            </p>
+                <table class="compatibilityTable">
+                <tbody>
+                    <tr><th>EVENTS</th>         <th>ALISASES</th>               <th>SUPPORTING OBJECTS  </th></tr>
+                    <tr><td>click</td>          <td>tap, press</td>             <td> Map, Pin, Shape, Image </td></tr>
+                    <tr><td>doubleclick</td>    <td>doubletap, doublepress</td> <td> Map, Pin, Shape, Image </td></tr>
+                    <tr><td>rightclick</td>     <td>rightpress, alttap</td>     <td> Map, Pin, Shape, Image </td></tr>
+                    <tr><td>longtouch</td>      <td>longclick, longpress</td>   <td> Map, Pin, Shape, Image </td></tr>
+
+                    <tr><td>move</td>           <td></td>                       <td> Map, Pin, Shape, Image </td></tr>
+                    <tr><td>moveend</td>        <td></td>                       <td> Map, Pin, Shape, Image </td></tr>
+                    <tr><td>movestart</td>      <td></td>                       <td> Map, Pin, Shape, Image </td></tr>
+
+                    <tr><td>resize</td>         <td></td>                       <td> Map </td></tr>
+                    <tr><td>zoomchange</td>     <td></td>                       <td> Map </td></tr>
+                    <tr><td>zoomend</td>        <td></td>                       <td> Map </td></tr>
+                    <tr><td>zoomstart</td>      <td></td>                       <td> Map </td></tr>
+                </tbody>
+            </table>
+            <p>
+            There are two ways you can work with events. You can either listen for events directly from the EventManager or you can use convenient alias methods directly from the object you wish to monitor. Listening directly from the Event Manager will cause you to receive all events of the type you are listening for, regardless of which object has generated them.  Event listeners that are created using the alias methods will only report events specific to that object.
+            </p>
+            <p>
+            This example illustrates the two ways of registering your event handlers.  Also note that one event can have multiple handlers.
+            </p>
+
+        <a href="ex-Events.html" class="pretop" target="_blank">
+            <img src="img/launch.png">
+        </a>
+        <pre class="prettyprint">
+
+/**
+ * takes passed a standard deCarta.Core.Event instance for all events.
+*/
+function eventHandler(event){
+    var eventInfo = document.getElementById("eventInfo");
+    var info = event.eventType +" - "+ event.object.type;
+    eventInfo.innerHTML=info+"<br>"+eventInfo.innerHTML;
+}
+
+var polygon = new deCarta.Core.Polygon({
+    vertices: [
+        new deCarta.Core.Position(37.8221, -122.5373),
+        new deCarta.Core.Position(37.7720, -122.5360),
+        new deCarta.Core.Position(37.7709, -122.4714),
+        new deCarta.Core.Position(37.8276, -122.4769)
+    ],
+    strokeColor: '#000',
+    fillColor: '#008800'
+});
+var pin = new deCarta.Core.Pin({
+    text : "showing text",
+    position: new deCarta.Core.Position(37.7709, -122.4614)
+})
+var shapeOverlay = new deCarta.Core.MapOverlay();
+var pinOverlay = new deCarta.Core.MapOverlay();
+
+window.map = new deCarta.Core.Map({
+    id: "mapContainer",
+    zoom: 10,
+    center: new deCarta.Core.Position("37.8276, -122.4769"),
+    onReady: function(map){
+
+        map.addLayer(shapeOverlay);
+        shapeOverlay.addObject(polygon);
+        map.addLayer(pinOverlay);
+        pinOverlay.addObject(pin);
+
+        // pin events
+
+        deCarta.Core.EventManager.listen('click', eventHandler, pin);
+
+        // shape events
+
+        deCarta.Core.EventManager.listen('click', eventHandler, polygon);
+        //objects all have shortcut methods for every event:
+        //same as: deCarta.Core.EventManager.listen('longtouch', eventHandler, polygon);
+        polygon.onlongtouch(eventHandler);
+        polygon.onrightclick(eventHandler);
+
+        // map events
+
+        deCarta.Core.EventManager.listen('moveend', eventHandler, map);
+        deCarta.Core.EventManager.listen('zoomchange', eventHandler, map);
+        deCarta.Core.EventManager.listen('zoomstart', eventHandler, map);
+        deCarta.Core.EventManager.listen('zoomend', eventHandler, map);
+        //same as: deCarta.Core.EventManager.listen('click', eventHandler, map);
+        map.onclick(eventHandler);
+        //same as: deCarta.Core.EventManager.listen('rightclick', eventHandler, map);
+        map.onrightclick(eventHandler);
+        //same as: deCarta.Core.EventManager.listen('doubleclick', eventHandler, map);
+        map.ondoubleclick(eventHandler);
+    }
+});
+        </pre>
+
+            <div class="moreTop"><img src="img/more.png"></div>
+            <div class="more">
+                <ul>
+                    <li>
+                        <a href="ex-Draggable.html" target="_blank">Draggable Pins & Shapes</a> Draggable Pins and Shapes with special feature to detect overlaps of the pins and shapes - good for use with geofencing.
+                    </li>    
+                </ul>
+            </div>
+
+
+        <h2 class="summarypagesubsection"><a name="shapes"></a>Map Overlay Shape Rendering</h2>
+        <p>
+            The JS API v3 provides client side shape rendering which internally will render the shapes as either canvas, SVG or VML depending on the browser capabilities.
+            This example shows the method of creating shapes, including circle, polygon and polyline.
+            Remember, you can also register events on shapes.
+        </p>
+        <a href="ex-Shapes.html" class="pretop" target="_blank">
+            <img src="img/launch.png">
+        </a>
+        <pre class="prettyprint">
+
+var shapeOverlay = new deCarta.Core.MapOverlay({
+    name: "Shapes"
+});
+
+var circle = new deCarta.Core.Circle({
+    position:new deCarta.Core.Position(37.766043795672225, -122.45707385253905),
+    radius: 3000 //meters
+});
+
+var polygon1 = new deCarta.Core.Polygon({
+    vertices: [
+        new deCarta.Core.Position(37.82216675869808, -122.53738403320312),
+        new deCarta.Core.Position(37.77203956046578, -122.5360107421875),
+        new deCarta.Core.Position(37.77094945786961, -122.47146606445314),
+        new deCarta.Core.Position(37.827613300308705, -122.47695922851562)
+    ],
+    strokeColor: '#000',
+    fillColor: '#008800'
+});
+var polygon2 = new deCarta.Core.Polygon({
+    vertices: [
+        new deCarta.Core.Position(37.82979180345793, -122.44400024414064),
+        new deCarta.Core.Position(37.77203956046578, -122.44125366210939),
+        new deCarta.Core.Position(37.77312964685589, -122.37121582031249),
+        new deCarta.Core.Position(37.833059436576214, -122.38082885742189)
+    ],
+    strokeColor: '#000',
+    fillColor: '#880000'
+});
+var polygon3 = new deCarta.Core.Polygon({
+    vertices: [
+        new deCarta.Core.Position(37.74914400290694, -122.53875732421875),
+        new deCarta.Core.Position(37.70005803438043, -122.5360107421875),
+        new deCarta.Core.Position(37.70333145278599, -122.464599609375),
+        new deCarta.Core.Position(37.74914400290694, -122.46871948242188)
+    ],
+    strokeColor: '#000',
+    fillColor: '#880088'
+});
+var polygon4 = new deCarta.Core.Polygon({
+    vertices: [
+        new deCarta.Core.Position(37.7524152343544, -122.43576049804686),
+        new deCarta.Core.Position(37.70660472542312, -122.43301391601562),
+        new deCarta.Core.Position(37.712059855877314, -122.36434936523438),
+        new deCarta.Core.Position(37.75350561243041, -122.37396240234374)
+    ],
+    strokeColor: '#000',
+    fillColor: '#000088'
+});
+
+var polyline = new deCarta.Core.Polyline({
+    lineGeometry: [
+        new deCarta.Core.Position(37.84721749373176, -122.56622314453126),
+        new deCarta.Core.Position(37.67714002437206, -122.55935668945312),
+        new deCarta.Core.Position(37.6858715369551, -122.34237670898438),
+        new deCarta.Core.Position(37.85375105733391, -122.33688354492188),
+        new deCarta.Core.Position(37.85157326766751, -122.53326416015624)
+    ],
+    strokeColor: '#000088',
+    strokeSize: 30
+
+});
+
+window.map = new deCarta.Core.Map({
+    id: "mapContainer",
+    zoom:11,
+    center: new deCarta.Core.Position(37.766043795672225, -122.43507385253905),
+    onReady: function(map){
+        map.addLayer(shapeOverlay);
+        shapeOverlay.addObject(circle);
+        shapeOverlay.addObject(polygon1);
+        shapeOverlay.addObject(polygon2);
+        shapeOverlay.addObject(polygon3);
+        shapeOverlay.addObject(polygon4);
+        shapeOverlay.addObject(polyline);
+    }
+});
+        </pre>
+
+
+
+
+        <h2 class="summarypagesubsection"><a name="pins"></a>Pinning Map</h2>
+        <p>
+            Pin objects provide a way to dynamically mark locations on a Map. A Pin might simply mark a location with an icon. By default, the icon representing the pin will be a red dot, but this can be modified with any image you wish to use. A Pin can also display more detailed information, from images to HTML, inside of an InfoWindow associated with the Pin. Pins can also be interactive, responding when a user moves the mouse over the pin or   clicks the pin.
+            <br><br>
+            NOTE: You can also use the EventRegistry class for registering events with Pins.
+
+        </p>
+        <a href="ex-Pins.html" class="pretop" target="_blank">
+            <img src="img/launch.png">
+        </a>
+        <pre class="prettyprint">
+
+var center = new deCarta.Core.Position("37.337520,-121.890091");
+
+var pinOverlay = new deCarta.Core.MapOverlay({
+    name: "Pins"
+});
+
+var pin = new deCarta.Core.Pin({
+    position: center.clone(),
+    text: 'Lorem ipsum dolor sit amet.'
+});
+
+window.map = new deCarta.Core.Map({
+    id: "mapContainer",
+    autoResize: true,
+    zoom: 11,
+    center: center,
+    onReady: function(map){
+        map.addLayer(pinOverlay);
+        pinOverlay.addObject(pin);
+    }
+});
+        </pre>
+
+        <div class="moreTop"><img src="img/more.png"></div>
+        <div class="more">
+            <ul>
+                <li>
+                    <a href="ex-PinsAdv.html" target="_blank">Advanced Pin Example</a> This example shows how to make pins using either DIVs or Images, and associating custom infoWindows and applying text overlays.
+                </li>    
+            </ul>
+        </div>
+
+
+        <h2 class="summarypagesubsection"><a name="geocoding"></a>Geocoding (free form, structured, reverse)</h2>
+        <p>
+            For many reasons, mainly performance, the underlying geospatial engine requires information in latitude and longitude coordinates. But, human beings don't think in terms of latitude and longitude. You've most likely never heard someone say, "Hey Bob, meet me at 37.1232, -121.43566 for a beer at 5 o'clock." Instead, human beings reference locations by address. Geocoding is the act of taking an address (example: "4 N Second St., San Jose, CA 95113") and translating it into a pair of coordinates on a map.
+            <br>
+            <br>
+            When working with user input, we always need to use a Geocoder object. Many times a user will put in an incomplete address, misspell a street name, or might only have a partial address available to input. Example: The distance between 2000 N. Main St., Anytowne USA and 2000 S. Main St., Anytowne USA might be miles; providing an address of 2000 Main St., Anytowne USA, without the directional before the street name, has a chance of inconveniently misplacing a user. As you can see, to assume your users will impeccably enter addresses is not wise.
+            <br>
+            <br>
+            The Geocoder object has a function geocode that takes a FreeFormAddress type and a callBack.  The callback is given the address candidates.  Try the example to see the JSON response printed out in structured form.
+        </p>
+        <a href="ex-FreeFormGeocoding.html" class="pretop" target="_blank">
+            <img src="img/launch.png">
+        </a>
+        <pre class="prettyprint">
+var myAddress = new deCarta.Core.FreeFormAddress(
+    "4 N 2nd St San Jose, CA",
+    new deCarta.Core.Locale('EN', 'US')
+);
+deCarta.Core.Geocoder.geocode(myAddress,function(addressResults){
+    printOut(addressResults);
+});
+        </pre>
+
+
+        <div class="moreTop"><img src="img/more.png"></div>
+        <div class="more">
+            <ul>
+                <li>
+                    <a href="ex-ReverseGeocoding.html" target="_blank">Reverse Geocoding</a> This example shows converting a Position to a StructuredAddress.
+                </li>    
+                <li>
+                    <a href="ex-StructuredGeocoding.html" target="_blank">Structured Geocoding</a> This example shows converting a StructuredAddress to a Position.
+                </li>    
+            </ul>
+        </div>
+
+
+
+
+
+        <h2 class="summarypagesubsection"><a name="routing"></a>Routing</h2>
+        <p>
+            Besides visualizing locations, maps are essential to finding your way from
+            one point to another.
+        </p>
+        <p>
+            Prior to generating a route, configure the routing
+            engine with the RoutePreference object. The RoutePreference object determines
+            what routing style and ultimately affects the path and turn-by-turn
+            directions. Finding the fastest
+            route is the default. A shortest distance route, one that might not
+            necessarily be the fastest, could also be generated. A route suitable for
+            pedestrian travel could also be generated, along with many other types of
+            routes. The RoutePreference object determines what units of measure are
+            used to report distances, and whether or not the array of waypoints
+            will be routed in order or optimized.
+        </p>
+        <p>
+            NOTE: deCarta uses a brute force optimization algorithm.
+            It is highly accurate, but requires that a list of 8 or less Positions be
+            routed for those expecting decent performance for the calculations.
+        </p>
+        <p>
+            The RouteQuery object generates the route, and returns a Route
+            object that contains route instructions and route geometry.
+            The instructions contain the
+            estimated time and total distance for the route. Each individual route
+            maneuver will contain a human understandable instruction
+            ("Turn right on Main St."), the distance and estimated time taken for each
+            maneuver, and the position at which this maneuver occurs.
+            The array of Positions within the RouteGeometry is used to draw the
+            route on the map via a DDSLine.
+        </p>
+
+
+        <a href="ex-Routing.html" class="pretop" target="_blank">
+            <img src="img/launch.png">
+        </a>
+        <pre class="prettyprint">
+
+var routeOverlay = new deCarta.Core.MapOverlay({
+    name: 'route'
+});
+
+window.map = new deCarta.Core.Map({
+    zoom: 12,
+    center: new deCarta.Core.Position("37.337520,-121.890091"),
+    id: "mapContainer",
+    onReady: function(){
+
+        var routeCriteria = new deCarta.Core.RouteCriteria();
+        map.addOverlay(routeOverlay);
+        routeCriteria.waypoints = [
+             new deCarta.Core.Position(37.789080,-122.398470),
+             new deCarta.Core.Position(37.337520,-121.890091)
+        ];
+
+        deCarta.Core.Routing.execute(routeCriteria, function(route, error){
+
+            var line = new deCarta.Core.Polyline({
+                lineGeometry: route.routeGeometry
+            })
+
+            var centerAndZoom = line.getIdealCenterAndZoom(map);
+
+            routeOverlay.addObject(line);
+            map.zoomTo(centerAndZoom.zoom);
+            map.centerOn(centerAndZoom.center);
+        })
+    }
+});
+        </pre>
+
+        <div class="moreTop"><img src="img/more.png"></div>
+        <div class="more">
+            <ul>
+                <li>
+                    <a href="ex-RoutingAdv.html" target="_blank">Advanced Routing</a>
+                    This example illustrates 3 Waypoints, the avoidance of freeways and the
+                    use of exclusion zones as polygons to avoid certain areas.
+                </li>    
+                <li>
+                    <a href="ex-RoutingCorridorSearch.html" target="_blank">Routing Corridor Search</a>
+                    This example illustrates the ability to search along a route by either drive time or drive distance.
+                    For instance, you can query "find ATM machines less than 100 Meters off the route" or "Find gas stations less than 5 minutes off the route".  The API also supports pure euclidean distance as well.
+                </li>    
+                <li>
+                    <a href="ex-RoutingAlternates.html" target="_blank">Alternate Routes</a>
+                    This example illustrates the ability to request alternative routes.  E.g. other ways of getting from the given origin to the destination.
+                </li>    
+            </ul>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <h2 class="summarypagesubsection"><a name="poi"></a>POI Search</h2>
+        <p>
+            We offer a stocked bar of POIs (Points Of Interest) for use with your application.
+            This example shows the basic request / response, illustrating the JSON format of
+            the response.
+            See more examples for a demo of actually pinning the map and searching in continuous mode.
+        </p>
+        <a href="ex-POISearch.html" class="pretop" target="_blank">
+            <img src="img/launch.png">
+        </a>
+        <pre class="prettyprint">
+
+var searchTerm='Pizza';//'Restaurant'
+var searchType='POIName';//'CATEGORY'
+var positionStr='37.337520,-121.890091';
+
+document.getElementById("POIContainer").innerHTML +=
+    "&lt;h4&gt:POI Search Term: "+searchTerm +", Search Type:"+searchType
+    + ", position:" + positionStr + "&lt;/h4&gt:";
+
+var criteria={
+    position: new deCarta.Core.Position(positionStr),
+    properties: {}
+};
+criteria.properties[searchType]=searchTerm;
+deCarta.Core.POISearch.execute(
+    criteria,
+    function(r){
+        document.getElementById("POIContainer").innerHTML +="&lt;h4&gt:raw JSON response :&lt;/h4&gt:"
+        +"&lt;pre class='prettyprint light'&gt:"+(JSON.stringify(r))+"&lt;/pre&gt:";
+        prettyPrint(true);
+    }
+
+);
+        </pre>
+
+
+            <div class="moreTop"><img src="img/more.png"></div>
+            <div class="more">
+                <ul>
+                    <li>
+                        <a href="ex-POISearchAdv.html" target="_blank">Advanced Search</a>
+                        This example illustrates putting pins on the map and continously searching as the user
+                        moves the map around (panning and zooming).
+
+                    </li>    
+                </ul>
+            </div>
+
+
+
+        <h2 class="summarypagesubsection"><a name="custom_layers"></a>Map Custom Layers</h2>
+        <p>
+            The deCarta v3 API allows you to add custom tile layers into your app by simply
+            extending our TileStore interface.
+
+            <br/>
+            <br/>
+            @see <a href=http://tilestache.org>http://tilestache.org</a>
+            <br/>
+            @see <a href=http://geoserver.org>http://geoserver.org</a>
+
+        </p>
+        <pre class="prettyprint">
+
+deCarta.Core.Configuration.projection = 'EPSG:3857';
+deCarta.Core.Configuration.urlVersion = 'auto';
+
+// make a custom layer to integrate custom tile layers into your app
+
+var MyTileStore = function(opt){
+    deCarta.Core.TileStore.call(this, opt);
+    this.baseUrl = 'http://example.com/tiles/';
+}
+
+MyTileStore.prototype = new deCarta.Core.TileStore();
+
+//extend the base class
+MyTileStore.prototype = deCarta.Utilities.extendObject(MyTileStore.prototype, {
+
+    /** Overridden getTileUrl function */
+    getTileUrl: function(x, y, z){
+        var bound = Math.pow(2, z);
+        y ++;
+        x = (x + (bound /2)) % bound;
+        y = (-y + (bound /2)) % bound;
+        if (x &lt; 0) x = bound + x;
+        if (y &lt; 0) y = bound + y;
+
+        // form your URL with the XYZ params
+        var url = this.baseUrl + z + '/' + x + '/' + y;
+
+        return url;
+    }
+});
+
+var myTileLayer = new deCarta.Core.MapLayer({
+    tileStore: new MyTileStore()
+});
+
+window.map = new deCarta.Core.Map({
+    id: "mapContainer",
+    center: new deCarta.Core.Position("37.337520,-121.890091"),
+    onReady: function(map){
+        map.addLayer(myTileLayer);
+    }
+});
+        </pre>
+
+
+            <div class="moreTop"><img src="img/more.png"></div>
+            <div class="more">
+                <ul>
+                    <li>
+                        <a href="ex-Images.html" target="_blank">Image Overlays</a>
+                        This example illustrates putting geographic images (e.g. demographic information)
+                        over the base map.  The API handles alligning and rendering the layers as a single
+                        unified interface.
+                    </li>    
+                </ul>
+            </div>
+
+
+        <h2 class="summarypagesubsection"><a name="map_animations"></a>Map Animations</h2>
+        <p>
+            The deCarta v3 API includes animation functionality for both Position and Zoom values. 
+            The PositionAnimator and ZoomAnimator classes can be used for smooth animations.
+        </p>
+        <a href="ex-Animation.html" class="pretop" target="_blank">
+            <img src="img/launch.png">
+        </a>
+        <pre class="prettyprint">
+
+//Animating a Pin
+
+window.map = new deCarta.Mobile.Map({
+    id: "mapContainer",
+    mode: 'html',
+    center: new deCarta.Core.Position(Config.position),
+    zoom: 12,            
+    // We are going to do most of the work in the onReady function 
+    onReady: function(){                                        
+                                                
+        //Let's create a layer for the pin
+        var shapesLayer = new deCarta.Mobile.MapOverlay({
+            name: 'Shapes',
+            clustering: false
+        });                    
+        map.addLayer(shapesLayer);
+
+        //and a pin
+        var pin = new deCarta.Mobile.Pin({                    
+            position: new deCarta.Mobile.Position(37.7916, -122.453)
+        });                
+        shapesLayer.addObject(pin);
+                                       
+        //Create a PositionAnimtor
+        var animator = new deCarta.Mobile.PositionAnimator();
+        animator.animate({
+            start: new deCarta.Mobile.Position(37.7916, -122.453), 
+            end: new deCarta.Mobile.Position(37.8328, -122.487), 
+            duration: 10000, // 10 seconds
+            easing: 'cubicinout',
+            onStep: function(pos){
+                //pos will be the current position in the animation
+                pin.setPosition(pos);
+            }.bind(this),
+            onEnd: function(){
+                alert('Animation Complete!');
+            }.bind(this)
+        });             
+    }.bind(this)
+});
+        </pre>
+
+
+            <div class="moreTop"><img src="img/more.png"></div>
+            <div class="more">
+                <ul>
+                    <li>
+                        <a href="ex-AnimationAdv.html" target="_blank">Advanced Animation Example</a>
+                        This example shows more advanced animation interactions with shapes and pins. 
+                    </li>    
+                </ul>
+            </div>
+
+
+
+
+        <h2 class="summarypagesection"><a name="browser_support"></a>Browser support table</h2>
+        <h3 class="summarypagesubsection"><a name="Currently_tested__supported_devices"></a>Currently tested / supported devices</h3>
+        <h4>Mobile:</h4>
+        <table class="compatibilityTable">
+            <tr>
+                <th>iOs Safari
+                <th>Android Browser (2.0 + )
+                <th>Android Browser (1.5 + )
+                <th>Samsung Wave
+                <th>Opera Widgets
+                <th>Opera Mobile
+                <th>JIL Wdgets
+                <th>Blackberry Torch
+            </tr>
+            <tr>
+                <td> full
+                <td> full
+                <td> partial
+                <td> full
+                <td> full
+                <td> full
+                <td> full
+                <td> partial
+            </tr>
+        </table>
+
+        <h4>Tablet:</h4>
+        <table class="compatibilityTable">
+            <tr>
+                <th>iPad
+                <th>Android Browser (2.0 + )
+                <th>Android Browser (1.5 + )
+                <th>Kindle Fire *
+            </tr>
+            <tr>
+                <td> full
+                <td> full
+                <td> partial
+                <td> full
+            </tr>
+        </table>
+
+        <h4>Desktop:</h4>
+        <table class="compatibilityTable">
+            <tr>
+                <th>Firefox (8.0 + )
+                <th>Chrome
+                <th>Opera (10 + )
+                <th>Safari (4 + )
+                <th>IE (9 )
+                <th>IE (8 )
+                <th>IE (7 )
+                <th>IE (6 )
+            </tr>
+            <tr>
+                <td> full
+                <td> full
+                <td> full
+                <td> full
+                <td> full
+                <td> full
+                <td> partial
+                <td> partial
+            </tr>
+        </table>
+        <br>    
+    </div>
+</body>
+<script src="docHelpers.js"></script>
+<script>
+    $(window).ready(function(){
+        $("h1.title").append("<div class='titleBlingLeft'></div>")
+        $(".titleBlingLeft").fadeIn("slow");
+        var panelClick = false;
+
+        $("#index a").click(function(){
+            panelClick=true;
+            
+            var otherAsInBox =  $(this).parent().find("a"); // select first to avoid flickering
+ 
+            $("#index a").css("background-color","#fff")
+            $("#index a").css("color","#333");
+
+            otherAsInBox.css("background-color","#908e8f");
+            otherAsInBox.css("color","#fff");
+
+            $(this).css("background-color","#333");
+            $(this).css("color","#fff");
+
+            setTimeout(function(){ panelClick=false; }, 1000); // force precedence
+            return true;
+
+        });
+        function waypointer(event, direction){
+            if(panelClick) return;
+            var ele = $("a[href*='"+$(event.currentTarget).find("a").attr("name")+"']");
+            if(!ele.length || ele.length>1) return;
+
+            var otherAsInBox = ele.parent().find("a");
+
+            $("#index a").css("background-color","#fff")
+            $("#index a").css("color","#333")
+
+            otherAsInBox.css("background-color","#908e8f");
+            otherAsInBox.css("color","#fff");
+
+            ele.css("background","#bbb");
+            ele.css("color","#fff")
+            ele.css("background-color","#333");
+            ele.css("color","#fff");
+        }
+        $(".summarypagesection").waypoint(waypointer);
+        $(".summarypagesubsection").waypoint(waypointer);
+    })
+</script>
+</html>

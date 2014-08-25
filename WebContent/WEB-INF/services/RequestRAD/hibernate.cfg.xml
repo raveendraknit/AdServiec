@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=AddManager</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.connection.password">pspl</property>
+    <mapping resource="com/sdk/service/TblBannerDayOfWeeks.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblHandset.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblSysSubCategories.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerTimes.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerActions.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetApplications.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetRoles.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetPersonalizationPerUser.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblSysBrands.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetUsers.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerSubCateories.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetSchemaVersions.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerSizes.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetMembership.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblLocations.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetPersonalizationAllUsers.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerLocations.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetPaths.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerImages.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetWebEventEvents.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBanners.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerLogs.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblBannerHandsets.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblActions.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblSysCategories.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblSysCompanies.hbm.xml"/>
+    <mapping resource="com/sdk/service/TblSysUserCompanies.hbm.xml"/>
+    <mapping resource="com/sdk/service/AspnetProfile.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

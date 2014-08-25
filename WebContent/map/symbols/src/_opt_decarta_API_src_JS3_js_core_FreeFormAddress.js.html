@@ -1,0 +1,63 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @class Represents a Free Form Address.
+<span class='line'>  3</span>  * For the purposes of the {@link deCarta.Core.Geocoder}:geocode() function,
+<span class='line'>  4</span>  * you can either create an instance of a FreeFormAddress, or you can create an
+<span class='line'>  5</span>  * inline object with the following structure:
+<span class='line'>  6</span>  * &lt;pre>
+<span class='line'>  7</span>  *   object: {
+<span class='line'>  8</span>  *       address: string, //free form address
+<span class='line'>  9</span>  *       locale: deCarta.Core.Locale, //a locale object
+<span class='line'> 10</span>  *       type: string = 'freeForm'
+<span class='line'> 11</span>  *   }
+<span class='line'> 12</span>  * &lt;/pre>
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * @description Free Form Address for use with Geocoder
+<span class='line'> 15</span>  *
+<span class='line'> 16</span>  * @constructor
+<span class='line'> 17</span>  * @param {String} address The free-form address, containing a partial or complete 
+<span class='line'> 18</span>  * address
+<span class='line'> 19</span>  * @param {deCarta.Core.Locale} locale A Locale object
+<span class='line'> 20</span>  * 
+<span class='line'> 21</span>  * @see deCarta.Core.Geocoder
+<span class='line'> 22</span>  * @see deCarta.Core.StructuredAddress
+<span class='line'> 23</span>  */</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="NAME">deCarta.Core.FreeFormAddress</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">address</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="NAME">this.address</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">address</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="NAME">this.locale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="NAME">this.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'freeForm'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="NAME">deCarta.Core.FreeFormAddress.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 35</span> 	 * @private
+<span class='line'> 36</span> 	 */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="NAME">toString</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.address</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">          </span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 43</span>      * Returns an XML Representation of the FreeFormAddress
+<span class='line'> 44</span>      * @return {string} XML formatted address
+<span class='line'> 45</span>      */</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="NAME">toXML</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">        </span><span class="STRN">'&lt;xls:Address countryCode="'</span><span class="PUNC">+</span><span class="NAME">this.locale.getCountry</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">'" language="'</span><span class="PUNC">+</span><span class="NAME">this.locale.getLanguage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">'">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">            </span><span class="STRN">'&lt;xls:freeFormAddress>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.address</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;/xls:freeFormAddress>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="STRN">'&lt;/xls:Address>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">xml</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="PUNC">}</span></pre></body></html>

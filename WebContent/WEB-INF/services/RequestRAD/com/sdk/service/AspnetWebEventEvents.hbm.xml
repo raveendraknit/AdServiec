@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetWebEventEvents" table="aspnet_WebEvent_Events" schema="dbo" catalog="AddManager">
+        <id name="eventId" type="string">
+            <column name="EventId" length="32" />
+            <generator class="assigned" />
+        </id>
+        <property name="eventTimeUtc" type="timestamp">
+            <column name="EventTimeUtc" length="23" not-null="true" />
+        </property>
+        <property name="eventTime" type="timestamp">
+            <column name="EventTime" length="23" not-null="true" />
+        </property>
+        <property name="eventType" type="serializable">
+            <column name="EventType" not-null="true" />
+        </property>
+        <property name="eventSequence" type="big_decimal">
+            <column name="EventSequence" scale="0" not-null="true" />
+        </property>
+        <property name="eventOccurrence" type="big_decimal">
+            <column name="EventOccurrence" scale="0" not-null="true" />
+        </property>
+        <property name="eventCode" type="int">
+            <column name="EventCode" not-null="true" />
+        </property>
+        <property name="eventDetailCode" type="int">
+            <column name="EventDetailCode" not-null="true" />
+        </property>
+        <property name="message" type="serializable">
+            <column name="Message" />
+        </property>
+        <property name="applicationPath" type="serializable">
+            <column name="ApplicationPath" />
+        </property>
+        <property name="applicationVirtualPath" type="serializable">
+            <column name="ApplicationVirtualPath" />
+        </property>
+        <property name="machineName" type="serializable">
+            <column name="MachineName" not-null="true" />
+        </property>
+        <property name="requestUrl" type="serializable">
+            <column name="RequestUrl" />
+        </property>
+        <property name="exceptionType" type="serializable">
+            <column name="ExceptionType" />
+        </property>
+        <property name="details" type="serializable">
+            <column name="Details" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetApplications" table="aspnet_Applications" schema="dbo" catalog="AddManager">
+        <id name="applicationId" type="string">
+            <column name="ApplicationId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <property name="applicationName" type="serializable">
+            <column name="ApplicationName" not-null="true" unique="true" />
+        </property>
+        <property name="loweredApplicationName" type="serializable">
+            <column name="LoweredApplicationName" not-null="true" unique="true" />
+        </property>
+        <property name="description" type="serializable">
+            <column name="Description" />
+        </property>
+        <set name="aspnetRoleses" inverse="true">
+            <key>
+                <column name="ApplicationId" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetRoles" />
+        </set>
+        <set name="aspnetMemberships" inverse="true">
+            <key>
+                <column name="ApplicationId" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetMembership" />
+        </set>
+        <set name="aspnetPathses" inverse="true">
+            <key>
+                <column name="ApplicationId" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetPaths" />
+        </set>
+        <set name="aspnetUserses" inverse="true">
+            <key>
+                <column name="ApplicationId" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetUsers" />
+        </set>
+    </class>
+</hibernate-mapping>

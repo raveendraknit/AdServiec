@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblSysBrands" table="tblSysBrands" schema="dbo" catalog="AddManager">
+        <id name="brandId" type="int">
+            <column name="BrandID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tblSysCompanies" class="com.sdk.service.TblSysCompanies" fetch="select">
+            <column name="CompanyID" not-null="true" />
+        </many-to-one>
+        <property name="brandName" type="string">
+            <column name="BrandName" length="50" />
+        </property>
+        <property name="billingName" type="string">
+            <column name="BillingName" length="50" />
+        </property>
+        <property name="billingEmail" type="string">
+            <column name="BillingEmail" length="50" />
+        </property>
+        <property name="billingTel" type="string">
+            <column name="BillingTel" length="20" />
+        </property>
+        <property name="reportingName" type="string">
+            <column name="ReportingName" length="50" />
+        </property>
+        <property name="reportingEmail" type="string">
+            <column name="ReportingEmail" length="50" />
+        </property>
+        <property name="reportingTel" type="string">
+            <column name="ReportingTel" length="20" />
+        </property>
+        <property name="creativeName" type="string">
+            <column name="CreativeName" length="50" />
+        </property>
+        <property name="creativeEmail" type="string">
+            <column name="CreativeEmail" length="50" />
+        </property>
+        <property name="creativeTel" type="string">
+            <column name="CreativeTel" length="20" />
+        </property>
+        <set name="tblLocationses" inverse="true">
+            <key>
+                <column name="BrandID" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblLocations" />
+        </set>
+        <set name="tblBannerses" inverse="true">
+            <key>
+                <column name="BrandID" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBanners" />
+        </set>
+    </class>
+</hibernate-mapping>

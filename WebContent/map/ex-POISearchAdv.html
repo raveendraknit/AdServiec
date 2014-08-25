@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Continuous Search w/ Clustering
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title"> Continuous Search w/ Clustering</h1>
+            Pan and zoom the map to see the continuous search and pin clustering.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        
+        // see Config.js for details    
+
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword; 
+        var center =  new deCarta.Core.Position(Config.position);
+
+
+        var uniques = {}
+
+        window.map;
+
+        var pinOverlay = new deCarta.Core.MapOverlay({
+            clustering: true,
+            onClusterClick: function(R){
+                map.zoomIn(2,R[0].getPosition());
+            },
+            name: "Pins"
+        });
+
+        window.map = new deCarta.Core.Map({
+            id: "mapContainer",
+            autoResize: true,
+            zoom: 11,
+            center: center,
+            onReady: function(map){
+                map.addLayer(pinOverlay);
+                Search.init(map);
+            }
+        });               
+
+
+
+        /**
+            You can search for either CATEGORIES or POIs or by the name of the POI
+            These are the existing categories:
+            "ATM", "Attraction", "Bar,Nightlife", "Cinema", "Coffee", "Hotel", "Museum", "Petrol", "Restaurant", "Shopping", "Theater", "Transport"
+        */
+        var Search = {
+            init : function(map){
+                this.criteria={
+                    position: map.center, 
+                    radius : map.getRadius(),
+                    properties: {CATEGORY:"Bar,Nightlife,Hotel"},
+                    database:"search:decarta:mapIT"
+                    //properties: {POIName:"starbucks"}
+                };
+                deCarta.Core.EventManager.listen('moveend', this.doSearch.bind(this), map);
+                deCarta.Core.EventManager.listen('zoomend', this.doSearch.bind(this), map);
+                this.doSearch();
+            },
+            doSearch : function(){
+                this.criteria.radius = map.getRadius();
+                deCarta.Core.POISearch.execute(
+                    this.criteria,
+                    function(resp){
+
+                        for(var i=0;i<resp.length; i++){
+                            var key = resp[i].position.toString()+resp[i].name; // unique key formed from pos and name
+                            if(uniques[key]) // avoid duplicates
+                                continue;
+                            uniques[key]=true;   
+                            var pin = new deCarta.Core.Pin({
+                                imageSrc: 'img/pin.png',
+                                yOffset: 30,
+                                xOffset: 16,
+                                position: resp[i].position, 
+                                text: resp[i].name+"<br>"+resp[i].address.toString()
+                            });
+                            pinOverlay.addObject(pin);
+                        }
+                    }
+                );
+            }
+        }
+
+        //Specify position to search from
+        var positionStr='-26.108045,28.054144';
+        //Specify radius example 5km
+        var uom = "KM";
+        var radius = deCarta.Core.Radius('5', uom);
+        //Specify search criteria
+        var criteria={
+            position: new deCarta.Core.Position(positionStr), 
+            radius : map.getRadius(),
+            //This is where you specify one or more category to search for.
+            //Current available list of categories : "ATM", "Attraction", "Bar,Nightlife", "Cinema", "Coffee", "Hotel", "Museum", "Petrol", "Restaurant", "Shopping", "Theater", "Transport"
+            properties: {CATEGORY:"Bar,Nightlife,Hotel"} 
+        };
+
+        //This is where you will now actually perform the search
+        deCarta.Core.POISearch.execute(
+            criteria,
+            function(resp){
+                document.getElementById("yourHTMLelement").innerHTML += "<h4>raw JSON response :</h4>" + "<pre style='color:black'>"+ resp + "</pre>";
+            }
+        );
+    </script>
+</html>    

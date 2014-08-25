@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Routing
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Route Corridor Search</h1>
+
+            <div style="text-align:left">
+            Corridor search allows for spatial and temporial queries for POIs along a route by exploring the road network.
+                        <br/>
+                        <br/>
+                        Search for 
+                        <br/>
+                        <select id="category">
+                            <option>ATM</option>
+                            <option>Attraction</option>
+                            <option>Bar,Nightlife</option>
+                            <option>Cinema</option>
+                            <option>Coffee</option>
+                            <option>Hotel</option>
+                            <option>Museum</option>
+                            <option>Petrol</option>
+                            <option>Restaurant</option>
+                            <option>Shopping</option>
+                            <option>Theater</option>
+                            <option>Transport</option>
+                        </select>
+                        <br/>
+                        Within 
+                        <br/>
+                        <select id="measure">
+                            <option value="distance">distance (KM)</option>
+                            <option value="time">time (minutes)</option>
+                        </select>
+                        <select id="measureValue">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                        <br/>
+                        <button id="searchButton">Search</button>
+                        <center>
+                        <img id="searchLoading" src="img/ajax-loader.gif"/>
+                        </center>
+                    </div>        
+                    <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+            </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+
+        Toast.show("calculating route, please wait");
+
+        var routeOverlay = new deCarta.Core.MapOverlay({
+            name: 'route'
+        });
+        var pinOverlay = new deCarta.Core.MapOverlay({
+            name: "pins"
+        });
+        var capsOverlay = new deCarta.Core.MapOverlay({
+            name: "routeCaps"
+        });
+
+        var routeId = null;
+
+        window.map = new deCarta.Core.Map({
+            zoom: 15,
+            center: new deCarta.Core.Position(Config.position),
+            id: "mapContainer",
+            onReady: function(){
+                Toast.hide();
+                map.addLayer(pinOverlay);
+                map.addLayer(capsOverlay);
+                var routeCriteria = new deCarta.Core.RouteCriteria();
+                map.addOverlay(routeOverlay);
+                routeCriteria.waypoints = [
+                     new deCarta.Core.Position(-25.887123,28.205),
+                     new deCarta.Core.Position(-26.110437,28.053578)         
+                ];
+                routeCriteria.provideRouteHandle=true;
+                deCarta.Core.Routing.execute(routeCriteria, function(route, error){
+                    routeId=route.routeID;
+                    var line = new deCarta.Core.Polyline({
+                        lineGeometry: route.routeGeometry
+                    })
+                    var centerAndZoom = line.getIdealCenterAndZoom(map);  
+                    routeOverlay.addObject(line);
+                    map.zoomTo(centerAndZoom.zoom);
+                    map.centerOn(centerAndZoom.center);
+
+                    capsOverlay.addObject(new deCarta.Core.Pin({
+                        position: line.positions[0],
+                        defaultPinOptions : {
+                            colorTop : "#00ff00",
+                            colorBottom : "#006600",
+                            size : 16
+                        }
+                    }));
+
+                    capsOverlay.addObject(new deCarta.Core.Pin({
+                        position: line.positions[line.positions.length-1],
+                        defaultPinOptions : {
+                            colorTop : "#ff0000",
+                            colorBottom : "#660000",
+                            size : 16
+                        }
+                    }));
+
+                })
+            }.bind(this)
+        });
+
+
+
+        function corridorSearch(){
+
+            pinOverlay.clear(); // clear POI pins from map
+
+            $("#searchButton").hide()
+            $("#searchLoading").show()
+
+            var criteria = new deCarta.Core.SearchCriteria();
+            criteria.properties =  {POIName: $("#category").val()};
+            criteria.maximumResponses=100;
+            criteria.database="search:decarta:mapIT"
+
+            $("#measure").val()
+            criteria.corridorParams = {
+                routeId: routeId,
+                measureValue : ($("#measure").val()=='distance'? $("#measureValue").val() * 1000 : $("#measureValue").val()),
+                measure : $("#measure").val() // distance [meters] || time [minutes] 
+            }
+            deCarta.Core.POISearch.execute(
+                criteria,
+                function(resp,error){
+                    $("#searchButton").show();
+                    $("#searchLoading").hide();
+                    if(error){
+                        console.log(JSON.stringify(error));
+                        return;
+                    }
+                    for(var i=0;i<resp.length; i++){
+                        var label = resp[i].name+"<br>";
+                        if(resp[i].distance){
+                            label+="off route : "+resp[i].distance.offRoute.toString();
+                            label+="<br>on route : "+resp[i].distance.onRoute.toString();
+                        }else if(resp[i].duration){
+                            label+="off route : "+deCarta.Utilities.podParse(resp[i].duration.offRoute.time);
+                            label+="<br>on route : "+deCarta.Utilities.podParse(resp[i].duration.onRoute.time);
+                        }
+                        var pin = new deCarta.Core.Pin({
+                            imageSrc: 'img/pin.png',
+                            yOffset: 34,
+                            xOffset: 20,
+                            position: resp[i].position, 
+                            text: label
+                        });
+                        pinOverlay.addObject(pin);
+                    }
+                }
+            );                
+        }
+        $("#searchLoading").hide();
+        $("#searchButton").click(corridorSearch);
+
+    </script>
+
+</html>    
+
+
+
+

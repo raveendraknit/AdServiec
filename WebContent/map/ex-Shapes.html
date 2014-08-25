@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=8, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Shapes Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.min.js"></script>
+        <script src="Config.js"></script>
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Rendering Shapes on Maps</h1>
+            Circle. lines and ploygons.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+               
+        var shapeOverlay = new deCarta.Core.MapOverlay({
+            name: "Shapes"
+        });
+        
+        var circle = new deCarta.Core.Circle({
+            position:new deCarta.Core.Position(-25.969914,28.14201), 
+            radius: 30000,
+            
+            fillOpacity: 0.1
+        });
+        
+        var circle2 = new deCarta.Core.Circle({
+            position:new deCarta.Core.Position(-33.969181, 18.59452), 
+            radius: 350000, //meters
+            strokeColor: '#FF0000',
+            fillColor: "green"
+        });
+
+        var polygon1 = new deCarta.Core.Polygon({
+            vertices:[
+                new deCarta.Core.Position(-29.243045,24.694158),
+                new deCarta.Core.Position(-28.618055,24.990789),
+                new deCarta.Core.Position(-27.863132,25.353338),
+                new deCarta.Core.Position(-27.911684,25.814763),
+                new deCarta.Core.Position(-27.765962,26.100408),
+                new deCarta.Core.Position(-27.425185,26.594793),
+                new deCarta.Core.Position(-27.122472,26.649724),
+                new deCarta.Core.Position(-26.975703,27.429754),
+                new deCarta.Core.Position(-26.779713,27.924138),
+                new deCarta.Core.Position(-27.024647,28.023015),
+                new deCarta.Core.Position(-27.220212,28.374578),
+                new deCarta.Core.Position(-27.298341,29.209539),
+                new deCarta.Core.Position(-28.047515,29.484197),
+                new deCarta.Core.Position(-28.463635,28.923894),
+                new deCarta.Core.Position(-28.492606,28.374578),
+                new deCarta.Core.Position(-28.801134,27.715398),
+                new deCarta.Core.Position(-29.549342,26.935369),
+                new deCarta.Core.Position(-30.263589,27.02326),
+                new deCarta.Core.Position(-30.405822,25.441228),
+                new deCarta.Core.Position(-29.654418,24.50739)
+            ],
+            strokeColor: '#FF0000',
+            fillColor: '#FFFFFF'
+        });
+        var polygon2 = new deCarta.Core.Polygon({
+            vertices: [
+                new deCarta.Core.Position(-29.264374,17.2216),
+                new deCarta.Core.Position(-26.073577,20.187908),
+                new deCarta.Core.Position(-29.780605,20.956951)
+            ],
+            strokeColor: '#000',
+            fillColor: '#880000',
+            fillOpacity: 0.5
+        });
+        var polygon3 = new deCarta.Core.Polygon({
+            vertices: [
+                new deCarta.Core.Position(37.74914400290694, -122.53875732421875),
+                new deCarta.Core.Position(37.70005803438043, -122.5360107421875),
+                new deCarta.Core.Position(37.70333145278599, -122.464599609375),
+                new deCarta.Core.Position(37.74914400290694, -122.46871948242188)
+            ],
+            strokeColor: '#000',
+            fillColor: '#880088'
+        });
+        var polygon4 = new deCarta.Core.Polygon({
+            vertices: [
+                new deCarta.Core.Position(37.7524152343544, -122.43576049804686),
+                new deCarta.Core.Position(37.70660472542312, -122.43301391601562),
+                new deCarta.Core.Position(37.712059855877314, -122.36434936523438),
+                new deCarta.Core.Position(37.75350561243041, -122.37396240234374)
+            ],
+            strokeColor: '#000',
+            fillColor: '#000088'
+        });
+
+        var polyline = new deCarta.Core.Polyline({
+            lineGeometry: [
+                new deCarta.Core.Position(-24.903396,18.122478),
+                new deCarta.Core.Position(-24.103656,28.845135),
+                new deCarta.Core.Position(-27.056208,33.041913),
+                new deCarta.Core.Position(-32.747566,29.54826),
+                new deCarta.Core.Position(-31.313302,21.76994)                 
+            ],
+            strokeColor: '#000088',
+            strokeWidth: 30
+
+        });        
+
+        window.map = new deCarta.Core.Map({
+            id: "mapContainer",
+            zoom:6,            
+            center: new deCarta.Core.Position("-29.141533, 26.164229"), 
+            onReady: function(map){
+                map.addLayer(shapeOverlay);
+                shapeOverlay.addObject(circle);
+                shapeOverlay.addObject(circle2);
+                shapeOverlay.addObject(polygon1);
+                shapeOverlay.addObject(polygon2);
+                shapeOverlay.addObject(polygon3);
+                shapeOverlay.addObject(polygon4);
+                shapeOverlay.addObject(polyline);
+                //alert(circle.getGML());
+            }
+        });
+    </script>
+</html>    

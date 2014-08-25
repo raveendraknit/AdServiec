@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetRoles" table="aspnet_Roles" schema="dbo" catalog="AddManager">
+        <id name="roleId" type="string">
+            <column name="RoleId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="aspnetApplications" class="com.sdk.service.AspnetApplications" fetch="select">
+            <column name="ApplicationId" length="36" not-null="true" />
+        </many-to-one>
+        <property name="roleName" type="serializable">
+            <column name="RoleName" not-null="true" />
+        </property>
+        <property name="loweredRoleName" type="serializable">
+            <column name="LoweredRoleName" not-null="true" />
+        </property>
+        <property name="description" type="serializable">
+            <column name="Description" />
+        </property>
+        <set name="aspnetUserses" inverse="true" table="aspnet_UsersInRoles">
+            <key>
+                <column name="RoleId" length="36" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sdk.service.AspnetUsers">
+                <column name="UserId" length="36" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,334 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  *  @class The Geocoder object is a static object that provides an interface
+<span class='line'>  3</span>  * to execute Geocoding and Reverse Geocoding using deCarta's WebServices API.
+<span class='line'>  4</span>  *  @description
+<span class='line'>  5</span>  *  The Geocoder object has two specific functions:
+<span class='line'>  6</span>  *  &lt;ul>
+<span class='line'>  7</span>  *    &lt;li>{@link #geocode} - Used to perform
+<span class='line'>  8</span>  *  geocoding (the translation of an address into a latitude and longitude
+<span class='line'>  9</span>  *  coordinate)&lt;/li>
+<span class='line'> 10</span>  *    &lt;li>{@link #reverseGeocode} - Used to translate a
+<span class='line'> 11</span>  *  latitude and longitude coordinate into an approximate address.&lt;/li>
+<span class='line'> 12</span>  *  &lt;/ul>
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * @description Static 
+<span class='line'> 15</span>  *
+<span class='line'> 16</span>  * @see deCarta.Core.FreeFormAddress
+<span class='line'> 17</span>  * @see deCarta.Core.StructuredAddress
+<span class='line'> 18</span>  */</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="NAME">deCarta.Core.Geocoder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 23</span>      * @private
+<span class='line'> 24</span>      * Get XML for a geocoding request
+<span class='line'> 25</span>      */</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="NAME">getGeocodeXML</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">address</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.type</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'freeForm'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">                </span><span class="STRN">'      &lt;xls:Request maximumResponses="10" version="1.0" requestID="9132342" methodName="GeocodeRequest">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">                </span><span class="STRN">'            &lt;xls:GeocodeRequest returnFreeForm="false">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">                                  </span><span class="NAME">address.toXML</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">                </span><span class="STRN">'            &lt;/xls:GeocodeRequest>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">                </span><span class="STRN">'      &lt;/xls:Request>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="WHIT">            </span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">            </span><span class="STRN">"      &lt;xls:Request maximumResponses='10' version='1.0' requestID='4387206' methodName='GeocodeRequest'>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">            </span><span class="STRN">"            &lt;xls:GeocodeRequest returnFreeForm='false'>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">            </span><span class="STRN">"                  &lt;xls:Address countryCode='"</span><span class="PUNC">+</span><span class="NAME">address.locale.country</span><span class="PUNC">+</span><span class="STRN">"' language='"</span><span class="PUNC">+</span><span class="NAME">address.locale.language</span><span class="PUNC">+</span><span class="STRN">"'>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.buildingNumber</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">address.street</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">            </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT">  </span><span class="STRN">"           &lt;xls:StreetAddress>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">            </span><span class="STRN">"                              &lt;xls:Building number='"</span><span class="PUNC">+</span><span class="NAME">address.buildingNumber</span><span class="PUNC">+</span><span class="STRN">"'/>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">            </span><span class="STRN">"                              &lt;xls:Street>"</span><span class="PUNC">+</span><span class="NAME">address.street</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:Street>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">            </span><span class="STRN">"                        &lt;/xls:StreetAddress>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.municipality</span><span class="PUNC">)</span><span class="WHIT">  </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT">   </span><span class="STRN">"                        &lt;xls:Place type='Municipality'>"</span><span class="PUNC">+</span><span class="NAME">address.municipality</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:Place>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.municipalitySubdivision</span><span class="PUNC">)</span><span class="WHIT">  </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT">   </span><span class="STRN">"                        &lt;xls:Place type='MunicipalitySubdivision'>"</span><span class="PUNC">+</span><span class="NAME">address.municipalitySubdivision</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:Place>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.countrySubdivision</span><span class="PUNC">)</span><span class="WHIT">  </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT">    </span><span class="STRN">"                        &lt;xls:Place type='CountrySubdivision'>"</span><span class="PUNC">+</span><span class="NAME">address.countrySubdivision</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:Place>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.countrySecondarySubdivision</span><span class="PUNC">)</span><span class="WHIT">  </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT">    </span><span class="STRN">"                        &lt;xls:Place type='CountrySecondarySubdivision'>"</span><span class="PUNC">+</span><span class="NAME">address.countrySecondarySubdivision</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:Place>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.countryTertiarySubdivision</span><span class="PUNC">)</span><span class="WHIT">  </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT">    </span><span class="STRN">"                        &lt;xls:Place type='CountryTertiarySubdivision'>"</span><span class="PUNC">+</span><span class="NAME">address.countryTertiarySubdivision</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:Place>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">address.postalCode</span><span class="PUNC">)</span><span class="WHIT">  </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT">    </span><span class="STRN">"                        &lt;xls:PostalCode>"</span><span class="PUNC">+</span><span class="NAME">address.postalCode</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:PostalCode>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="WHIT">        </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"                  &lt;/xls:Address>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">            </span><span class="STRN">"            &lt;/xls:GeocodeRequest>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">            </span><span class="STRN">"      &lt;/xls:Request>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">xml</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="COMM">/*
+<span class='line'> 65</span> Free form
+<span class='line'> 66</span> 
+<span class='line'> 67</span> 
+<span class='line'> 68</span> &lt;xls:XLS version="1" xls:lang="en" xmlns:xls="http://www.opengis.net/xls" rel="4.5.1.sp02" xmlns:gml="http://www.opengis.net/gml">
+<span class='line'> 69</span>       &lt;xls:RequestHeader clientName="client_name" sessionID="8285826" clientPassword="client_password" />
+<span class='line'> 70</span>       &lt;xls:Request maximumResponses="10" version="1.0" requestID="9132342" methodName="DirectoryRequest">
+<span class='line'> 71</span>             &lt;xls:GeocodeRequest returnFreeForm="false">
+<span class='line'> 72</span>                   &lt;xls:Address countryCode="US" language="EN">
+<span class='line'> 73</span>                         &lt;xls:freeFormAddress>409 tilton ave san mateo&lt;/xls:freeFormAddress>
+<span class='line'> 74</span>                   &lt;/xls:Address>
+<span class='line'> 75</span>             &lt;/xls:GeocodeRequest>
+<span class='line'> 76</span>       &lt;/xls:Request>
+<span class='line'> 77</span> &lt;/xls:XLS>
+<span class='line'> 78</span> 
+<span class='line'> 79</span> 
+<span class='line'> 80</span> Structured:
+<span class='line'> 81</span> 
+<span class='line'> 82</span> &lt;xls:XLS version='1' xls:lang='en' xmlns:xls='http://www.opengis.net/xls' rel='4.5.1.sp02' xmlns:gml='http://www.opengis.net/gml'>
+<span class='line'> 83</span>       &lt;xls:RequestHeader clientName='client_name' sessionID='1380293' clientPassword='client_password' configuration='global-decarta'/>
+<span class='line'> 84</span>       &lt;xls:Request maximumResponses='10' version='1.0' requestID='4387206' methodName='GeocodeRequest'>
+<span class='line'> 85</span>             &lt;xls:GeocodeRequest returnFreeForm='false'>
+<span class='line'> 86</span>                   &lt;xls:Address countryCode='US' language='EN'>
+<span class='line'> 87</span>                         &lt;xls:StreetAddress>
+<span class='line'> 88</span>                               &lt;xls:Building number='409'/>
+<span class='line'> 89</span>                               &lt;xls:Street>Tilton&lt;/xls:Street>
+<span class='line'> 90</span>                         &lt;/xls:StreetAddress>
+<span class='line'> 91</span>                         &lt;xls:Place type='Municipality'>san mateo&lt;/xls:Place>
+<span class='line'> 92</span>                         &lt;xls:PostalCode>94401&lt;/xls:PostalCode>
+<span class='line'> 93</span>                   &lt;/xls:Address>
+<span class='line'> 94</span>             &lt;/xls:GeocodeRequest>
+<span class='line'> 95</span>       &lt;/xls:Request>
+<span class='line'> 96</span> &lt;/xls:XLS>
+<span class='line'> 97</span> 
+<span class='line'> 98</span> */</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>103</span>      * @private
+<span class='line'>104</span>      * Get XML for a rev gecoding request
+<span class='line'>105</span>      */</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">    </span><span class="NAME">getRevGeocodeXML</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">pos</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">preference</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="COMM">/*
+<span class='line'>108</span>  &lt;xls:XLS version='1' xls:lang='en' xmlns:xls='http://www.opengis.net/xls' rel='4.5.1.sp02' xmlns:gml='http://www.opengis.net/gml'>
+<span class='line'>109</span>       &lt;xls:RequestHeader clientName='client_name' sessionID='4212349' clientPassword='client_password' configuration='global-decarta'/>
+<span class='line'>110</span>       &lt;xls:Request maximumResponses='10' version='1.0' requestID='5314108' methodName='ReverseGeocodeRequest'>
+<span class='line'>111</span>             &lt;xls:ReverseGeocodeRequest>
+<span class='line'>112</span>                   &lt;xls:Position>
+<span class='line'>113</span>                         &lt;gml:Point>
+<span class='line'>114</span>                               &lt;gml:pos>37.5 -112.5&lt;/gml:pos>
+<span class='line'>115</span>                         &lt;/gml:Point>
+<span class='line'>116</span>                   &lt;/xls:Position>
+<span class='line'>117</span>                   &lt;xls:ReverseGeocodePreference>StreetAddress&lt;/xls:ReverseGeocodePreference>
+<span class='line'>118</span>             &lt;/xls:ReverseGeocodeRequest>
+<span class='line'>119</span>       &lt;/xls:Request>
+<span class='line'>120</span> &lt;/xls:XLS>
+<span class='line'>121</span>  */</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">        </span><span class="NAME">preference</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">preference</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">'StreetAddress'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">         </span><span class="STRN">"&lt;xls:Request maximumResponses='10' version='1.0' requestID='0123456789' methodName='ReverseGeocodeRequest'>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">                </span><span class="STRN">"&lt;xls:ReverseGeocodeRequest>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">                      </span><span class="STRN">"&lt;xls:Position>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">                            </span><span class="STRN">"&lt;gml:Point>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">                                  </span><span class="STRN">"&lt;gml:pos>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">pos.getLat</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">  </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">pos.getLon</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/gml:pos>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">                            </span><span class="STRN">"&lt;/gml:Point>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">                      </span><span class="STRN">"&lt;/xls:Position>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">                      </span><span class="STRN">"&lt;xls:ReverseGeocodePreference>"</span><span class="PUNC">+</span><span class="NAME">preference</span><span class="PUNC">+</span><span class="STRN">"&lt;/xls:ReverseGeocodePreference>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">                </span><span class="STRN">"&lt;/xls:ReverseGeocodeRequest>"</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">          </span><span class="STRN">"&lt;/xls:Request>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span> </span><span class="WHIT">         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">xml</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>140</span>      * Translate an address into a list of Positions (latitude and
+<span class='line'>141</span> 	 * longitude coordinates).
+<span class='line'>142</span>      * Since user input may often be incomplete, it is important to be able to
+<span class='line'>143</span>      * accept the multiple matches that can be returned from a geocode request.
+<span class='line'>144</span>      * Geocoding is an asynchronous request made to the DDS Web Services, and thus
+<span class='line'>145</span>      * requires a callBack function to catch the returned results.
+<span class='line'>146</span>      * The application should provide a callBack function that has the following prototype:
+<span class='line'>147</span>      * &lt;pre>
+<span class='line'>148</span>      * function geocodeCallBack(results)
+<span class='line'>149</span>      * &lt;/pre>
+<span class='line'>150</span>      * Where &lt;pre>results&lt;/pre> is an array, with each element of the array
+<span class='line'>151</span> 	 * having the following structure:
+<span class='line'>152</span> 	 * 
+<span class='line'>153</span>      * &lt;pre>
+<span class='line'>154</span> {
+<span class='line'>155</span>   "Address": deCarta.Core.StructuredAddress,
+<span class='line'>156</span>   "Position": deCarta.Core.Position,
+<span class='line'>157</span>   "matchType": "string",
+<span class='line'>158</span>   "accuracy": float
+<span class='line'>159</span> }
+<span class='line'>160</span>      * &lt;/pre>
+<span class='line'>161</span>      *
+<span class='line'>162</span>      * @param {Address} address StructuredAddress or FreeFormAddress to be geocoded
+<span class='line'>163</span> 	 * &lt;p>&lt;strong>Note:&lt;/strong> This can be EITHER an instance of a
+<span class='line'>164</span> 	 * {@link deCarta.Core.StructuredAddress} or
+<span class='line'>165</span> 	 * {@link deCarta.Core.FreeFormAddress} class OR an equivalent structure
+<span class='line'>166</span> 	 * created as an inline object.&lt;/p>
+<span class='line'>167</span> 	 * &lt;p>An inline StructuredAddress can be implemented by defining an inline object with one or more of these fields:&lt;/p>
+<span class='line'>168</span> 	 * &lt;ul>
+<span class='line'>169</span>      * &lt;li>buildingNumber: (optional) Address number for this location.&lt;/li>
+<span class='line'>170</span> 	 *   &lt;li>countryCode: Country, formatted as ISO 3166-1 alpha-2 (2 digit) country code. 
+<span class='line'>171</span> 	 *       See http://developer.decarta.com/docs/read/bada_api/Features for supported countries.&lt;/li>
+<span class='line'>172</span>      *   &lt;li>countrySecondarySubdivision: (optional) County (or equivalent)
+<span class='line'>173</span>      *       for this location.&lt;/li>
+<span class='line'>174</span>      *   &lt;li>countrySubdivision: (optional) Sub-country administrative
+<span class='line'>175</span>      *       division (ie the state, province, or region) for this location.&lt;/li>
+<span class='line'>176</span> 	 *   &lt;li>countryTertiarySubdivision: (optional) Additional subdivision (when relevant)&lt;/li>
+<span class='line'>177</span> 	 *   &lt;li>landmark&lt;/li>
+<span class='line'>178</span> 	 *   &lt;li>locale: Language, formatted as ISO 639 Language code.
+<span class='line'>179</span> 	 *       See http://developer.decarta.com/docs/read/bada_api/Features for supported languages.&lt;/li>
+<span class='line'>180</span>      *   &lt;li>municipality: (optional) City, town, village, or equivalent for
+<span class='line'>181</span>      *       this location.&lt;/li>
+<span class='line'>182</span>      *   &lt;li>municipalitySubdivision: (optional) Recognized neighborhood,
+<span class='line'>183</span>      *       borough, or equivalent for this location.&lt;/li>
+<span class='line'>184</span>      *   &lt;li>postalCode: (optional) Postal code, postcode, ZIP code, or
+<span class='line'>185</span>      *        equivalent numerical code for this location.&lt;/li>
+<span class='line'>186</span> 	 *   &lt;li>speedLimit: [Not currently documented]&lt;/li>
+<span class='line'>187</span>      *   &lt;li>street: (optional) Name and designation of the street (ie Main
+<span class='line'>188</span>      *       St) for this location.&lt;/li>
+<span class='line'>189</span> 	 *   &lt;li>streetNameAndNumber: [Not currently documented]&lt;/li>
+<span class='line'>190</span> 	 *   &lt;li>type: Must be set to 'structured' to create an inline structured address object&lt;/li>
+<span class='line'>191</span> 	 * &lt;/ul>
+<span class='line'>192</span>      *
+<span class='line'>193</span> 	 * &lt;p>An inline FreeFormAddress can be implemented by defining these fields:&lt;/p>
+<span class='line'>194</span> 	 * &lt;ul>
+<span class='line'>195</span> 	 *   &lt;li>(string) address: The free-form address&lt;/li>
+<span class='line'>196</span> 	 *   &lt;li>locale: Language, formatted as ISO 639 Language code.
+<span class='line'>197</span> 	 *       See http://developer.decarta.com/docs/read/bada_api/Features for supported languages.&lt;/li>
+<span class='line'>198</span> 	 *   &lt;li>type: Must be set to 'freeForm' to create an inline Free Form address object&lt;/li>
+<span class='line'>199</span> 	 * &lt;/ul>
+<span class='line'>200</span>      * &lt;br />
+<span class='line'>201</span>      * @param {function} callback The callback function that will receive the results of the geocode operation
+<span class='line'>202</span>      * @throws {Exception} Invalid or missing address object passed as parameter
+<span class='line'>203</span>      * @throws {Exception} Invalid or missing callback function
+<span class='line'>204</span>      */</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">    </span><span class="NAME">geocode</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">address</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">address.type</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">address.type</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="STRN">'freeForm'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'structured'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">            </span><span class="NAME">deCarta.Core.Exception.raise</span><span class="PUNC">(</span><span class="STRN">'When using the geocode function, the first parameter must be an address object'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">            </span><span class="NAME">deCarta.Core.Exception.raise</span><span class="PUNC">(</span><span class="STRN">'When using the geocode function, the second parameter must be a callback function'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>212</span> 
+<span class='line'>213</span> </span><span class="WHIT">        </span><span class="NAME">deCarta.Core.JSRequest.send</span><span class="PUNC">(</span><span class="NAME">this.getGeocodeXML</span><span class="PUNC">(</span><span class="NAME">address</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.handleResponse.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.handleFailure.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> 
+<span class='line'>215</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>216</span> 
+<span class='line'>217</span> 
+<span class='line'>218</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>219</span>      * Translate a Position (latitude, longitude coordinate) into an Address.
+<span class='line'>220</span>      * Reverse geocodes are always approximated to the best possible address
+<span class='line'>221</span>      * within the range of addresses available in the map data. Reverse geocoding
+<span class='line'>222</span>      * is an asynchronous request made to the DDS Web Services,
+<span class='line'>223</span>      * and thus requires a callBack function to catch the returned results.
+<span class='line'>224</span>      * The application should provide a callBack function that has the following
+<span class='line'>225</span>      * prototype:
+<span class='line'>226</span>      * &lt;pre>
+<span class='line'>227</span>      *  function reverseGeocodeCallBack(result)
+<span class='line'>228</span>      * &lt;/pre>
+<span class='line'>229</span>      * If a valid reverse geocode can be made, the resulting position will be
+<span class='line'>230</span> 	 * passed to the callBack in an result object. The structure of the result object
+<span class='line'>231</span> 	 * is as follows:
+<span class='line'>232</span> {
+<span class='line'>233</span>   "Address": deCarta.Core.StructuredAddress,
+<span class='line'>234</span>   "Position": deCarta.Core.Position
+<span class='line'>235</span> }
+<span class='line'>236</span>      * &lt;/pre>	 
+<span class='line'>237</span>      * A failed reverse geocode will return an empty Address (result.Address.toString() == "").
+<span class='line'>238</span>      * @param {deCarta.Core.Position} position The position to reverse geocode.
+<span class='line'>239</span> 	 * This can be passed as an instance of a {@link deCarta.Core.Position} class,
+<span class='line'>240</span> 	 * or as an inline-object with the following fields:
+<span class='line'>241</span> 	 * &lt;ul>
+<span class='line'>242</span> 	 *   &lt;li>{float} lat: Latitude of the position&lt;/li>
+<span class='line'>243</span> 	 *   &lt;li>{float} lat: Longitude of the position&lt;/li>
+<span class='line'>244</span> 	 * &lt;/ul>
+<span class='line'>245</span> 	 *
+<span class='line'>246</span>      * @param {function} callback Function that will handle the result of the reverse geocode.
+<span class='line'>247</span>      * @throws {Exception} Invalid or missing callback function
+<span class='line'>248</span>      *
+<span class='line'>249</span>      */</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">    </span><span class="NAME">reverseGeocode</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">position</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">preference</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">            </span><span class="NAME">deCarta.Core.Exception.raise</span><span class="PUNC">(</span><span class="STRN">'When using the reverseGeocode function, the second parameter must be a callback function'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>254</span> 
+<span class='line'>255</span> </span><span class="WHIT">        </span><span class="NAME">deCarta.Core.JSRequest.send</span><span class="PUNC">(</span><span class="NAME">this.getRevGeocodeXML</span><span class="PUNC">(</span><span class="NAME">position</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">preference</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.handleRevResponse.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.handleFailure.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>257</span> 
+<span class='line'>258</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>259</span>      *@private
+<span class='line'>260</span>      */</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">    </span><span class="NAME">handleRevResponse</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">        </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">response.XLS.Response.ReverseGeocodeResponse.ReverseGeocodedLocation</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">res</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">            </span><span class="NAME">res.Address</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">deCarta.Core.StructuredAddress</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">            </span><span class="NAME">res.Address.fromWSResponse</span><span class="PUNC">(</span><span class="NAME">t.Address</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> 
+<span class='line'>268</span> </span><span class="WHIT">            </span><span class="NAME">res.Position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">deCarta.Core.Position</span><span class="PUNC">(</span><span class="NAME">t.Point.pos</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> 
+<span class='line'>270</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t.SearchCentreDistance</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">                </span><span class="NAME">res.searchCenterDistance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">deCarta.Core.Distance</span><span class="PUNC">(</span><span class="NAME">t.SearchCentreDistance.value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">t.SearchCentreDistance.uom</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">            </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">t</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">            </span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">            </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">Address</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>278</span> 
+<span class='line'>279</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>280</span>      * @private
+<span class='line'>281</span>      */</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">    </span><span class="NAME">handleResponse</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">        </span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">err</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'Unknown'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>285</span> 
+<span class='line'>286</span> </span><span class="WHIT">        </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">response.XLS.Response.ErrorList.Error.message</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">                </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">error</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">response.XLS.Response.ErrorList.Error.message</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">            </span><span class="COMM">//there is no such field forget it.</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">		</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">res</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">deCarta.Utilities.makeArrayFix</span><span class="PUNC">(</span><span class="NAME">response.XLS.Response.GeocodeResponse.GeocodeResponseList.GeocodedAddress</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">    		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">res.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">add</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">deCarta.Core.StructuredAddress</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">				</span><span class="NAME">add.fromWSResponse</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">Address</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">				</span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">Address</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">add</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">				</span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">Position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">deCarta.Core.Position</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">Point.pos</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">                </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">                </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">matchType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">GeocodeMatchCode.matchType</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">                </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">accuracy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">GeocodeMatchCode.accuracy</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">                </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">GeocodeMatchCode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">                </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">GeocodeMatchCode</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">                </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">res</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">Point</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">			</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">            </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">                </span><span class="NAME">err</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">response.XLS.Response.ErrorList.Error.message</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">            </span><span class="NAME">deCarta.Core.Exception.raise</span><span class="PUNC">(</span><span class="STRN">'Error handling response : '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">err</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">                </span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>317</span> 
+<span class='line'>318</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>319</span>      * @private
+<span class='line'>320</span>      */</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">    </span><span class="NAME">handleFailure</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>322</span> 
+<span class='line'>323</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>324</span> 
+<span class='line'>325</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>326</span> 
+<span class='line'>327</span> </span></pre></body></html>

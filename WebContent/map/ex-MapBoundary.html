@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Map Boundary demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+        
+        <script src="js/UI/ZoomControl.js"></script>
+        <link href="css/UI/ZoomControl.css" rel="stylesheet">        
+	</head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Map Boundary</h1>
+            This example shows how to set up a boundary so that the map cannot be dragged outside a specific area. 
+            <a href="" onclick="this.parentNode.style.display='none'; return false;" class='hide'>hide</a>
+        </div>        
+    </body>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+               
+        var map = new deCarta.Core.Map({
+            id: "mapContainer",            
+            center: new deCarta.Core.Position(-26.140337,28.245231),
+            zoom: 14,
+            controls: [
+                new deCarta.UI.ZoomControl({
+                    position: 'topLeft'
+                })
+            ],                   
+            // We are going to do most of the work in the onReady function 
+            onReady: function(){
+                /* We instantiate a MapBoundary object */
+                var mapBoundary = new deCarta.Mobile.MapBoundary();
+                /* Set the positions to define a (rough) outline of O.R Tambo International Airport */
+                mapBoundary.setPositions([
+                    new deCarta.Core.Position(-26.167456,28.229782),
+                    new deCarta.Core.Position(-26.147502,28.220426),
+                    new deCarta.Core.Position(-26.141724,28.220683),
+                    new deCarta.Core.Position(-26.130011,28.229267),
+                    new deCarta.Core.Position(-26.124463,28.235961),
+                    new deCarta.Core.Position(-26.111439,28.239137),
+                    new deCarta.Core.Position(-26.11614,28.248578),
+                    new deCarta.Core.Position(-26.124077,28.249265),
+                    new deCarta.Core.Position(-26.127622,28.251926),
+                    new deCarta.Core.Position(-26.131783,28.258534),
+                    new deCarta.Core.Position(-26.147194,28.25699),
+                    new deCarta.Core.Position(-26.165453,28.251239)
+                ])
+                /* Apply it to the map. */
+                this.map.setBoundary(mapBoundary);
+                
+                this.map.render();                        
+            }.bind(this)
+        });
+
+    </script>
+
+</html>    

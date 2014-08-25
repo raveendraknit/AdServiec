@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Basic Map Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>       
+
+        <!-- UI -->
+        <script src="js/UI/CopyrightControl.js"></script>
+        <link href="css/UI/CopyrightControl.css" rel="stylesheet">
+
+        <script src="js/UI/LocateControl.js"></script>
+        <link href="css/UI/LocateControl.css" rel="stylesheet">
+
+        <script src="js/UI/OverviewControl.js"></script>
+        <link href="css/UI/OverviewControl.css" rel="stylesheet">
+
+        <script src="js/UI/PanControl.js"></script>
+        <link href="css/UI/PanControl.css" rel="stylesheet">
+
+        <script src="js/UI/ScaleControl.js"></script>
+        <link href="css/UI/ScaleControl.css" rel="stylesheet">
+
+        <script src="js/UI/SelectControl.js"></script>
+        <link href="css/UI/SelectControl.css" rel="stylesheet">
+
+        <script src="js/UI/ZoomControl.js"></script>
+        <link href="css/UI/ZoomControl.css" rel="stylesheet">
+
+        <script src="js/UI/LayerControl.js"></script>
+        <link href="css/UI/LayerControl.css" rel="stylesheet">        
+        <script src="Config.js"></script>
+                <style>
+            #mapContainer{
+                position:relative;
+                top:10px;
+                left:20px;
+                width:500px;
+                height:500px;
+                float:left;
+            }
+        </style>
+	</head>
+    <body class="example">           
+        <div id="mapContainer2" style="position:relative;float:left;top:10px;left:10px;width:300px;height:500px"></div>   
+        <div id="mapContainer"></div>  
+        <div class="description">
+            <h1 class="title">Dynamic Pins with Hover dynamic content</h1>
+            <button onclick="generatePins()">Add 50 pins</button>
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+               
+
+        var pinOverlay = new deCarta.Core.MapOverlay({
+            name: "Pins",
+            clustering: true
+        });
+
+        var shapeOverlay = new deCarta.Core.MapOverlay({
+            name: "Shapes"
+        });
+
+
+        window.map = new deCarta.Core.Map({
+            zoom: 8,
+            id: "mapContainer",
+            center: new deCarta.Core.Position(Config.position),
+            onReady: function(){
+                map.addOverlay(pinOverlay);
+                map.addOverlay(shapeOverlay);
+            }
+        });
+
+        window.map2 = new deCarta.Core.Map({
+            zoom: 8,
+            id: "mapContainer2",
+            center: new deCarta.Core.Position(Config.position),
+            onReady: function(){
+                map2.addOverlay(pinOverlay);
+                map2.addOverlay(shapeOverlay);
+            }
+        });
+
+        function generatePins(){
+            
+            var rect = map.getVisibleRect();
+            var topLeft = rect[3];
+            var bottomRight = rect[1];
+
+            var minX = topLeft.getX(map.zoom);
+            var maxX = bottomRight.getX(map.zoom);
+            var minY = topLeft.getY(map.zoom);
+            var maxY = bottomRight.getY(map.zoom);
+
+            for (var i = 0; i < 50; i++){
+                var x = randomFromTo(minX, maxX);
+                var y = randomFromTo(minY, maxY);
+
+                var pos = new deCarta.Core.Position(0,0);
+                pos.setXY(x,y,map.zoom);
+                var div = document.createElement("div"); 
+                div.style.height="28px" 
+                div.style.width="28px" 
+                div.style.border="2px inset #ccc" 
+                div.style.borderRadius="1em" 
+                div.style.color="white" 
+                div.style.textShadow="1px 1px 1px #333";
+                div.innerHTML=":)"
+                div.style.backgroundColor='#02c525';
+
+                var div2 = document.createElement("div");
+                div2.style.height = '50px';
+                div2.style.width = '100px;'
+                div2.backgroundColor = '#FF0000';
+                div2.innerHTML = 'Yo I am pin ' + i;
+
+                var p = new deCarta.Core.Pin({
+                    position: pos,
+                    text: div2.innerHTML,
+                    image: div
+                })
+                p.onhoveron(hoverShow);
+                p.onhoveroff(hoverHide);
+                pinOverlay.addObject(p);
+            }
+        }
+
+        function hoverShow(){
+            this.showText();
+        }
+
+        function hoverHide(){
+            this.hideText();
+        }
+
+        function generateShapes(){
+
+            var rect = map.getVisibleRect();
+            var topLeft = rect[3];
+            var bottomRight = rect[1];
+
+            var minX = topLeft.getX(map.zoom);
+            var maxX = bottomRight.getX(map.zoom);
+            var minY = topLeft.getY(map.zoom);
+            var maxY = bottomRight.getY(map.zoom);
+
+            var xSize = maxX - minX;
+            var ySize = maxY - minY;
+
+            var xStep = xSize / 10;
+            var yStep = ySize / 10;
+
+            for (var i = 0; i < 10; i++){
+                for (var j = 0; j < 10; j ++){
+
+                    switch(randomFromTo(1,3)){
+                        case 1: 
+                            //polygon
+                            var vertNum = randomFromTo(3, 8);
+                            var vert = [];
+                            for (var t = 0; t < vertNum; t++){
+
+                                var x = minX + (xStep * i);
+                                var y = minY + (yStep * j);
+
+                                var x = randomFromTo(x, x+xStep);
+                                var y = randomFromTo(y, y+yStep);
+
+                                var pos = new deCarta.Core.Position(0,0);
+                                pos.setXY(x,y,map.zoom);
+
+                                vert.push(pos);
+                            }
+                            var poly = new deCarta.Core.Polygon({vertices: vert});
+                            shapeOverlay.addObject(poly);   
+                            break;
+                        case 2: 
+                            //polyline
+                            var vertNum = randomFromTo(10, 100);
+                            var vert = [];
+                            for (var t = 0; t < vertNum; t++){
+                                var x = minX + (xStep * i);
+                                var y = minY + (yStep * j);
+
+                                var x = randomFromTo(x, x+xStep);
+                                var y = randomFromTo(y, y+yStep);
+
+                                var pos = new deCarta.Core.Position(0,0);
+                                pos.setXY(x,y,map.zoom);
+
+                                vert.push(pos);
+                            }
+                            var line = new deCarta.Core.Polyline({lineGeometry: vert});
+                            shapeOverlay.addObject(line);
+                            break;
+                        case 3: 
+                            //circle
+                            var x = minX + (xStep * i);
+                            var y = minY + (yStep * j);
+
+                            var x = randomFromTo(x, x+xStep);
+                            var y = randomFromTo(y, y+yStep);
+                            var pos = new deCarta.Core.Position(0,0);
+                            pos.setXY(x,y,map.zoom);
+
+                            var circle = new deCarta.Core.Circle({position: pos, radius: 100});
+                            shapeOverlay.addObject(circle);
+                            break;
+                    }                 
+                }
+            }
+            map.render();
+
+        }
+
+        function randomFromTo(from, to){
+            return Math.floor(Math.random() * (to - from + 1) + from);
+        }
+    </script>
+</html>    

@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Pin Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+
+        <style type="text/css">
+            .deCarta-Pin-Default.startPin{
+                background: green;                     
+                width: 20px;
+                height: 20px;
+                border: 1px solid black;
+            }
+
+            .deCarta-Pin-Default.endPin{
+                background: red;
+                width: 20px;
+                height: 20px;
+                border: 1px solid black;
+            }
+        </style>
+
+
+    </head>
+    <body class="example" oncontextmenu="return false;">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Click Based Routing</h1>
+            Left click to set the start point, right click for destination. 
+            (on a touch device, first click is origin, second click is destination).
+            <br />
+
+            Modify the route by dragging the pins. 
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword; 
+
+        var center =  new deCarta.Core.Position(Config.position);
+        var pinOverlay = new deCarta.Core.MapOverlay({
+            name: "Pins"
+        });
+
+        var routeOverlay = new deCarta.Core.MapOverlay({
+            name: "Route"
+        });
+
+        var startPin = null;
+        var endPin = null;
+        var routePolyline = null;
+
+
+        window.map = new deCarta.Core.Map({
+            id: "mapContainer",
+            autoResize: true,
+            zoom: 11,
+            center: center,
+            onReady: function(map){
+                //First we add the overlays 
+                map.addLayer(routeOverlay);
+                map.addLayer(pinOverlay);                
+
+                //register a click event to create the start pin
+                //When registering an event the return value is 
+                //a function that can be used to unregister
+                //the event. 
+                var clickRemove = map.onclick(function(event){
+
+                    //place the pin
+                    placeStartPin(event);
+
+                     //use the remove function to get rid of the handler. 
+                    clickRemove();
+
+                    if (deCarta.Window.isTouchable()){
+                        //if we are on a touch device, register another click event for the end pin
+                        var clickRemove2 = map.onclick(function(event){
+                            placeEndPin(event);
+
+                            clickRemove2();
+                        });
+                    }
+                });                
+
+                //if we are on a regular mouse device, add the right click handler
+                if (!deCarta.Window.isTouchable()){
+                    //Same thing with right click, for the end point
+                    var rightClickRemove =  map.onrightclick(function(event, e){
+
+                        placeEndPin(event);
+
+                        rightClickRemove();
+                    });
+                }
+
+            }
+        });
+
+
+        //this function performs the routing calculation
+        function doRouting(){
+            //check that we have both pins
+            if (!startPin || !endPin) return;
+
+            //get route start and end position
+            var startPos = startPin.getPosition();
+            var endPos = endPin.getPosition();
+
+            //generate a route criteria 
+            var routeCriteria = new deCarta.Core.RouteCriteria();
+            routeCriteria.waypoints = [startPos, endPos];
+
+            //execute the route query. 
+            deCarta.Core.Routing.execute(routeCriteria, function(route){
+                //if we already have a polyline for the route, remove it
+                if (routePolyline) {                    
+                    routeOverlay.removeObject(routePolyline);
+                }
+
+                //make a route polyline
+                routePolyline = new deCarta.Core.Polyline({
+                    lineGeometry: route.routeGeometry
+                })
+                
+                //calculate the optimal center and zoom to view the line
+                var centerAndZoom = routePolyline.getIdealCenterAndZoom(map);
+                
+                //add the line to the map
+                routeOverlay.addObject(routePolyline);
+
+                //zoom and pan to the ideal position
+                map.zoomTo(centerAndZoom.zoom);
+                map.centerOn(centerAndZoom.center);
+            })
+        }
+
+        function placeStartPin(event){
+            //when the map is clicked, we create a pin
+            startPin = new deCarta.Core.Pin({
+                position: event.position,
+                cssClass: 'startPin',
+                defaultPinOptions:{
+                    colorTop : "#00ff00",
+                    colorBottom : "#009900",
+                    size: 16
+                },
+                draggable: true //make the pin draggable
+                
+            });
+
+            //register a move end event on the pin, 
+            //which will trigger a new route calculation
+            startPin.onmoveend(doRouting);
+
+            //add the pin to the map
+            pinOverlay.addObject(startPin);
+            //try routing
+            doRouting();                    
+        }
+
+        function placeEndPin(event){
+
+            endPin = new deCarta.Core.Pin({
+                position: event.position,
+                cssClass: 'endPin',
+                defaultPinOptions: {
+                    colorTop : "#ff0000",
+                    colorBottom : "#990000",
+                    size : 16
+                },
+                draggable: true
+            });
+
+            endPin.onmoveend(doRouting);
+
+            pinOverlay.addObject(endPin);
+            doRouting();
+        }
+
+
+    </script>
+</html>    

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblSysSubCategories" table="tblSysSubCategories" schema="dbo" catalog="AddManager">
+        <id name="subCategoryId" type="int">
+            <column name="SubCategoryID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tblSysCategories" class="com.sdk.service.TblSysCategories" fetch="select">
+            <column name="CategoryID" not-null="true" />
+        </many-to-one>
+        <property name="subCategoryName" type="string">
+            <column name="SubCategoryName" length="50" />
+        </property>
+        <set name="tblBannerSubCateorieses" inverse="true">
+            <key>
+                <column name="SubCategoryID" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerSubCateories" />
+        </set>
+    </class>
+</hibernate-mapping>

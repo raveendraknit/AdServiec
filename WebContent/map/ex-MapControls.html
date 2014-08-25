@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Map UI Controls
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.min.js"></script>
+        <script src="Config.js"></script>
+
+        <!-- you load each control individually -->
+
+        <script src="js/UI/LocateControl.js"></script>
+        <link href="css/UI/LocateControl.css" rel="stylesheet">
+
+        <script src="js/UI/LayerControl.js"></script>
+        <link href="css/UI/LayerControl.css" rel="stylesheet">
+
+        <script src="js/UI/OverviewControl.js"></script>
+        <link href="css/UI/OverviewControl.css" rel="stylesheet">
+
+        <script src="js/UI/PanControl.js"></script>
+        <link href="css/UI/PanControl.css" rel="stylesheet">
+
+        <script src="js/UI/ScaleControl.js"></script>
+        <link href="css/UI/ScaleControl.css" rel="stylesheet">
+
+        <script src="js/UI/SelectControl.js"></script>
+        <link href="css/UI/SelectControl.css" rel="stylesheet">
+
+        <script src="js/UI/ZoomControl.js"></script>
+        <link href="css/UI/ZoomControl.css" rel="stylesheet">
+
+        <script src="js/UI/ZoomControlMobile.js"></script>
+        <link href="css/UI/ZoomControlMobile.css" rel="stylesheet">
+
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Map Controls</h1>
+            These are some of the basic map controls
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+               
+        var controls = [];
+
+        if(deCarta.Window.isMobile()){
+            controls.push(new deCarta.UI.ZoomControlMobile({position: 'bottomRight'}));
+            controls.push(new deCarta.UI.SelectControl({position: 'leftTop'}));
+            controls.push(new deCarta.UI.LocateControl({position: 'rightTop'}));
+        } else {
+            controls.push(new deCarta.UI.OverviewControl({position: 'rightBottom'}));
+            controls.push(new deCarta.UI.PanControl({position: 'leftTop'}));
+            controls.push(new deCarta.UI.ScaleControl({position: 'bottomLeft'}));
+            controls.push(new deCarta.UI.ZoomControl({position: 'leftTop'}));
+            controls.push(new deCarta.UI.SelectControl({position: 'leftTop'}));
+            controls.push(new deCarta.UI.LocateControl({position: 'rightTop'}));
+            controls.push(new deCarta.UI.LayerControl({position: 'topLeft'}));
+        }
+
+        window.map = new deCarta.Core.Map({
+            zoom: 10,
+            id: "mapContainer",
+            center: new deCarta.Core.Position(Config.position),
+            controls: controls
+        });
+
+    </script>
+</html>    
+
+
+
+
+
+
+
+
+

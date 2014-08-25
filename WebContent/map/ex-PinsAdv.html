@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Advanced Pin Features Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+
+        <style type="text/css">
+            /* CSS styled pin */
+            .deCarta-Pin-Default.specialPin{
+                background: #F1F145; /* All browsers */
+                background-image:-moz-radial-gradient(60% 60%,circle contain,yellow,green 75%,rgba(255,255,255,0));
+                background-image:-webkit-gradient(radial,35% 35%,1,50% 50%,12,from(#F1F145),color-stop(75%, green),to(rgba(255, 255, 255, 0)));                            
+                width: 15px;
+                height: 15px;
+                border: 1px solid black;
+            }
+
+            /* CSS styled Info Window */
+            .deCarta-InfoWindow.specialPin .deCarta-InfoWindow-Content-External{
+                background: #f79400; /* default background for browsers without gradient support */
+
+                background: -webkit-gradient(radial, 30% 30%, 0, 30% 30%, 100, from(#ffe000), to(#f79400));
+                background: -moz-radial-gradient(30% 30%, farthest-side, #ffe000, #f79400);
+                background: radial-gradient(ellipse at center, rgba(255,224,0,1) 0%,rgba(247,148,0,1) 100%); /* W3C */
+
+                text-shadow: 2px 2px 2px #000;
+
+                -webkit-box-shadow: 1px 1px 2px rgba(50, 50, 50, 0.75);
+                -moz-box-shadow:    1px 1px 2px rgba(50, 50, 50, 0.75);
+                box-shadow:         1px 1px 2px rgba(50, 50, 50, 0.75);
+            }
+
+            .deCarta-InfoWindow.specialPin .deCarta-InfoWindow-Background{
+                background-color: #AA0000;            
+            }
+
+            .deCarta-InfoWindow.specialPin:after{
+                border-color: #AA0000 transparent;
+            }
+        </style>
+
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">More Pins</h1>
+            This example shows how to make pins using either DIVs or Images, applying text overlays and  special styling using CSS.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+        var pinOverlay = new deCarta.Core.MapOverlay({
+            name: "Pins"
+        });
+        
+        /* A Simple Pin, all default options */
+        var simplePin = new deCarta.Core.Pin({
+            position: new deCarta.Core.Position(-26.109229,28.050289),
+            text: '<p><b>Default Pin</b></p>'
+        });
+
+        /* A default pin, with custom styling */
+        var styledPin = new deCarta.Core.Pin({
+            handle: "henkTest",
+            objectId: "henkTest",
+            position: new deCarta.Core.Position(-26.109306,28.051845),
+            text: '<p><b>Stylish pin</b></p>',
+            cssClass: 'specialPin'
+        });            
+        
+        /* A Pin using an Image object as the source */
+        var myImage = new Image();
+        myImage.src = 'img/pin.png';
+        myImage.foo="bar"; // attach data to DOM object reference.
+        myImage.style.height="41px";
+        myImage.style.width="32px";
+        var imagePin = new deCarta.Core.Pin({
+            position: new deCarta.Core.Position(-26.107745,28.051899),
+            text: '<b>HTML Content</b><p style="width:200px; margin-right:16px">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."<hr>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"',
+            image: myImage,
+            yOffset: 30,
+            xOffset: 16
+        });
+
+        /* A Pin with rich content in its infowindow */
+        var richPin = new deCarta.Core.Pin({
+            position:new deCarta.Core.Position(-26.109007,28.054538),
+            text: '<b>embed images</b><p><img src=img/pin.png></p>',
+            imageSrc: 'img/pin.png',
+            yOffset: 30,
+            xOffset: 16
+        });        
+
+                /* A Pin with rich content in its infowindow */
+        var richPin2 = new deCarta.Core.Pin({
+            position:new deCarta.Core.Position(-26.109207,28.054738),
+            text: '<b>embed images</b><p><img src=img/pin.png><a href="#" onclick="test(\'henk test\')">click</a></p>',
+            imageSrc: 'img/pin.png',
+            yOffset: 30,
+            xOffset: 16
+        });
+        
+        function test(txt){
+            window.open("http://yellowpages.co.za");
+            
+        }
+        /* A Pin using a custom DIV  with innerHTML as a label */
+        var div = document.createElement("div"); 
+        div.style.height="28px" 
+        div.style.width="28px" 
+        div.style.border="2px inset #ccc" 
+        div.style.borderRadius="1em" 
+        div.style.color="white" 
+        div.style.textShadow="1px 1px 1px #333";
+        div.innerHTML=":)"
+        div.style.backgroundColor='#02c525'; 
+        var divPin = new deCarta.Core.Pin({
+            position:new deCarta.Core.Position(-26.10999,28.053669),
+            text: 'pin generated using div',
+            yOffset: 14,
+            xOffset: 14,
+            image: div
+        });
+
+        /* using a DIV with a background image as the pin */
+        var div = document.createElement("div"); 
+        div.style.height="41px" 
+        div.style.width="32px" 
+        div.style.borderRadius="1em" 
+        div.style.color="yellow";
+        div.style.textShadow="1px 1px 0 #333";
+        div.innerHTML="a";
+        div.style.backgroundImage="url(img/pin.png)"
+
+
+        var div2 = document.createElement("div");
+        div2.style.height = '50px';
+        div2.style.width = '100px;'
+        div2.backgroundColor = '#FF0000';
+        div2.innerHTML = 'HELLO I AM A DIV';
+
+
+        var divBGPin = new deCarta.Core.Pin({
+            position: new deCarta.Core.Position(-26.11051,28.052307), 
+            text: div2,
+            yOffset: 41,
+            xOffset: 16
+        });
+
+
+
+        window.map = new deCarta.Core.Map({
+            id: "mapContainer",
+            autoResize: true,
+            zoom: 18,
+            center: new deCarta.Core.Position(-26.109027,28.052596),
+            onReady: function(map){
+                map.addLayer(pinOverlay);
+                pinOverlay.addObject(simplePin);
+                pinOverlay.addObject(styledPin);
+                pinOverlay.addObject(imagePin);
+                pinOverlay.addObject(richPin);
+                pinOverlay.addObject(richPin2);
+                pinOverlay.addObject(divPin);
+                pinOverlay.addObject(divBGPin);
+
+                map.render();
+            }
+        });
+    </script>
+</html>    

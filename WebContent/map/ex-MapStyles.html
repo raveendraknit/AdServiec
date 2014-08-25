@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Map Styles Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+	</head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Map Styles</h1>
+            View different map styles:
+            <br/>
+            <select id="styles">
+                <option value="tomtom">mapIT Maps</option>
+                <option value="night">Night</option>
+                <option value="generic">Generic</option>
+                <option value="old-world-tile">Middle Earth</option>
+                <option value="blue-steel-tile">Blue Steel</option>
+                <option value="bright-tile">Bright</option>
+            </select>
+            <br/>
+            If you are interested in making your own image style, please contact our support team at: <a href=mailto:support@mapit.co.za>support@mapit.co.za</a>.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+               
+        window.map = new deCarta.Core.Map({
+            zoom: 10,
+            id: "mapContainer",
+            center: new deCarta.Core.Position(Config.position)
+        });
+
+        document.getElementById("styles").onchange = function(){
+            map.setMapStyle(this.options[this.selectedIndex].value);
+        }
+
+    </script>
+
+</html>    

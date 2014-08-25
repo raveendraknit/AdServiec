@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblBannerImages" table="tblBannerImages" schema="dbo" catalog="AddManager">
+        <id name="imageId" type="string">
+            <column name="ImageID" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tblBannerSizes" class="com.sdk.service.TblBannerSizes" fetch="select">
+            <column name="BannerSizeID" length="36" />
+        </many-to-one>
+        <many-to-one name="tblBanners" class="com.sdk.service.TblBanners" fetch="select">
+            <column name="BannerID" length="36" />
+        </many-to-one>
+        <property name="image" type="binary">
+            <column name="Image" />
+        </property>
+        <property name="contentType" type="string">
+            <column name="ContentType" length="30" />
+        </property>
+        <property name="fileName" type="string">
+            <column name="FileName" length="50" />
+        </property>
+        <property name="dateCreated" type="timestamp">
+            <column name="DateCreated" length="23" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Alternate Routing
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Alternate Route</h1>
+            <div style="text-align:left">
+            You can specify a number of alternative routes for each route request.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+            </div>        
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+
+       Toast.show("calculating route, please wait");
+
+        var routeOverlay = new deCarta.Core.MapOverlay({
+            name: 'route'
+        });
+        var capsOverlay = new deCarta.Core.MapOverlay({
+            name: "routeCaps"
+        });
+
+        var routeId = null;
+
+        window.map = new deCarta.Core.Map({
+            zoom: 10,
+            center: new deCarta.Core.Position(Config.position),
+            id: "mapContainer",
+            onReady: function(){
+               Toast.hide();
+                map.addLayer(capsOverlay);
+                var routeCriteria = new deCarta.Core.RouteCriteria();
+                routeCriteria.alternateRoutes=2;
+                map.addOverlay(routeOverlay);
+                var color = ["#b9b5f9","#c89ef0","#b9b5f9","#c89ef0","#922cf0"]
+                routeCriteria.waypoints = [
+                     new deCarta.Core.Position(-25.887123,28.205),
+                     new deCarta.Core.Position(-26.110437,28.053578)  
+                ];
+                routeCriteria.provideRouteHandle=true;
+                deCarta.Core.Routing.execute(routeCriteria, function(route, error){
+                    routeId=route.routeID;
+                    var line = new deCarta.Core.Polyline({
+                        lineGeometry: route.routeGeometry,
+                        strokeColor: color.pop(),
+                        strokeWidth: 13,
+                        strokeOpacity: 0.8
+                    })
+                    var centerAndZoom = line.getIdealCenterAndZoom(map);  
+                    routeOverlay.addObject(line);
+                    map.zoomTo(centerAndZoom.zoom);
+                    map.centerOn(centerAndZoom.center);
+                   for (var i=0;i<route.alternates.length;i++){
+                        var line = new deCarta.Core.Polyline({
+                            lineGeometry: route.alternates[i].routeGeometry,
+                            strokeColor: color.pop(),
+                            strokeSize: 80,
+                            strokeWidth: 10,
+                            strokeOpacity: 0.8
+                         })
+                        routeOverlay.addObject(line);
+                    }
+
+                    capsOverlay.addObject(new deCarta.Core.Pin({
+                        position: line.positions[0],
+                        defaultPinOptions : {
+                            colorTop : "#00ff00",
+                            colorBottom : "#006600",
+                            size : 16
+                        }
+                    }));
+
+                    capsOverlay.addObject(new deCarta.Core.Pin({
+                        position: line.positions[line.positions.length-1],
+                        defaultPinOptions : {
+                            colorTop : "#ff0000",
+                            colorBottom : "#660000",
+                            size : 16
+                        }
+                    }));
+
+                })
+            }.bind(this)
+        });
+
+    </script>
+
+</html>    
+
+
+
+

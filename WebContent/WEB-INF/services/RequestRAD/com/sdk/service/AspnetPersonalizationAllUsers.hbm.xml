@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetPersonalizationAllUsers" table="aspnet_PersonalizationAllUsers" schema="dbo" catalog="AddManager">
+        <id name="pathId" type="string">
+            <column name="PathId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="aspnetPaths" class="com.sdk.service.AspnetPaths" update="false" insert="false" fetch="select">
+            <column name="PathId" length="36" not-null="true" unique="true" />
+        </many-to-one>
+        <property name="pageSettings" type="binary">
+            <column name="PageSettings" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="LastUpdatedDate" length="23" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

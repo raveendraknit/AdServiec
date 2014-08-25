@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Map Events Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+
+        <!-- you load each control individually -->
+        <script src="js/UI/ZoomControl.js"></script>
+        <link href="css/UI/ZoomControl.css" rel="stylesheet">
+
+    </head>
+    <body class="example">        
+        <div id="mapContainer">
+            <div id="eventInfo" style="position:absolute;top:10px;left:10px;z-index:10000;font-size:9px;text-align:left"></div>
+        </div>        
+        <div class="description">
+            <h1 class="title">Event Handlers</h1>
+            These are some of the basic events.  Note how they are logged out to the screen through a common handler.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;
+
+        /**
+         * takes passed a standard deCarta.Core.Event instance for all events.
+        */
+        function eventHandler(event){
+            var eventInfo = document.getElementById("eventInfo");
+            var position = event.position ? " - "+event.position : " ";
+            var info = event.eventType +" - "+ event.object.type + position;
+            eventInfo.innerHTML=info+"<br>"+eventInfo.innerHTML;
+        }
+
+        var polygon = new deCarta.Core.Polygon({
+            vertices: [
+                new deCarta.Core.Position(-25.897456,27.940475),
+                new deCarta.Core.Position(-25.907956,28.013946),
+                new deCarta.Core.Position(-25.857299,28.081924),
+                new deCarta.Core.Position(-25.960443,28.057205),
+                new deCarta.Core.Position(-25.957357,27.968627)
+            ],
+            strokeColor: '#000',
+            fillColor: '#008800'
+        });
+        var pin = new deCarta.Core.Pin({
+            text : "showing text",
+            position: new deCarta.Core.Position(-26.01661,28.094283),
+            draggable: true
+        })
+        var shapeOverlay = new deCarta.Core.MapOverlay();
+        var pinOverlay = new deCarta.Core.MapOverlay();
+
+        window.map = new deCarta.Core.Map({
+            id: "mapContainer",
+            zoom: 10,
+            controls : [new deCarta.UI.ZoomControl({position: 'topRight'})],
+            center: new deCarta.Core.Position("-25.956431, 28.138915"),
+            onReady: function(map){                
+
+                map.addLayer(shapeOverlay);
+                shapeOverlay.addObject(polygon);
+                map.addLayer(pinOverlay);
+                pinOverlay.addObject(pin);
+
+                // pin events
+
+                deCarta.Core.EventManager.listen('click', eventHandler, pin);
+                deCarta.Core.EventManager.listen('rightclick', eventHandler, pin);
+                deCarta.Core.EventManager.listen('longtouch', eventHandler, pin);
+
+                //new in 3.0.2
+                pin.onhoveron(eventHandler);
+                pin.onhoveroff(eventHandler);                                
+
+                //new in 3.0.4
+                pin.on('movestart moveend move', eventHandler);
+
+                // shape events
+
+                deCarta.Core.EventManager.listen('click', eventHandler, polygon);
+                //objects all have shortcut methods for every event:         
+                polygon.onlongtouch(eventHandler); //same as: deCarta.Core.EventManager.listen('longtouch', eventHandler, polygon);
+                polygon.onrightclick(eventHandler);
+                //hover events       
+                polygon.onhoveron(eventHandler);                
+                polygon.onhoveroff(eventHandler);
+       
+
+                // map events
+
+                deCarta.Core.EventManager.listen('moveend', eventHandler, map);
+                deCarta.Core.EventManager.listen('movestart', eventHandler, map);
+                deCarta.Core.EventManager.listen('move', eventHandler, map);
+                deCarta.Core.EventManager.listen('zoomchange', eventHandler, map);
+                deCarta.Core.EventManager.listen('longtouch', eventHandler, map);
+                deCarta.Core.EventManager.listen('zoomstart', eventHandler, map);
+                deCarta.Core.EventManager.listen('zoomend', eventHandler, map);
+                map.onclick(eventHandler); //same as: deCarta.Core.EventManager.listen('click', eventHandler, map);
+                map.onrightclick(eventHandler); //same as: deCarta.Core.EventManager.listen('rightclick', eventHandler, map);
+                map.ondoubleclick(eventHandler); //same as: deCarta.Core.EventManager.listen('doubleclick', eventHandler, map);
+            }
+        });
+            
+    </script>
+</html>    
+
+
+
+
+
+
+
+

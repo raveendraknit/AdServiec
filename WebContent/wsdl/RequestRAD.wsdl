@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://services.service.sdk.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://services.service.sdk.com" xmlns:intf="http://services.service.sdk.com" xmlns:tns1="http://service.sdk.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://services.service.sdk.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://service.sdk.com"/>
+   <element name="main">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="args" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="mainResponse">
+    <complexType/>
+   </element>
+   <element name="getRad">
+    <complexType>
+     <sequence>
+      <element name="rAdId" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getRadResponse">
+    <complexType>
+     <sequence>
+      <element name="getRadReturn" type="impl:RAd"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="RAd">
+    <sequence>
+     <element name="archived" nillable="true" type="xsd:boolean"/>
+     <element name="balance" nillable="true" type="xsd:double"/>
+     <element name="bannerName" nillable="true" type="xsd:string"/>
+     <element name="budget" nillable="true" type="xsd:double"/>
+     <element name="campaignType" nillable="true" type="xsd:string"/>
+     <element name="catExclusive" nillable="true" type="xsd:boolean"/>
+     <element name="clicks" nillable="true" type="xsd:long"/>
+     <element name="convertions" nillable="true" type="xsd:long"/>
+     <element name="cpa" nillable="true" type="xsd:double"/>
+     <element name="cpalimit" nillable="true" type="xsd:double"/>
+     <element name="cpc" nillable="true" type="xsd:double"/>
+     <element name="cpclimit" nillable="true" type="xsd:double"/>
+     <element name="cpm" nillable="true" type="xsd:double"/>
+     <element name="cpmlimit" nillable="true" type="xsd:double"/>
+     <element name="curDailyBudget" nillable="true" type="xsd:double"/>
+     <element name="dailyBudget" nillable="true" type="xsd:double"/>
+     <element name="dailyBudgetDate" nillable="true" type="xsd:dateTime"/>
+     <element name="dateArchived" nillable="true" type="xsd:dateTime"/>
+     <element name="dateCreated" nillable="true" type="xsd:dateTime"/>
+     <element name="enabled" nillable="true" type="xsd:boolean"/>
+     <element name="endDate" nillable="true" type="xsd:dateTime"/>
+     <element name="exclusive" nillable="true" type="xsd:boolean"/>
+     <element name="impressions" nillable="true" type="xsd:long"/>
+     <element name="keywords" nillable="true" type="xsd:string"/>
+     <element name="priority" nillable="true" type="xsd:int"/>
+     <element name="startDate" nillable="true" type="xsd:dateTime"/>
+     <element name="statusId" nillable="true" type="xsd:int"/>
+     <element name="subCategoryId" nillable="true" type="xsd:int"/>
+     <element name="tblSysBrands" nillable="true" type="tns1:TblSysBrands"/>
+     <element name="tblSysCategories" nillable="true" type="tns1:TblSysCategories"/>
+     <element name="url" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://service.sdk.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://services.service.sdk.com"/>
+   <complexType name="TblSysCompanies">
+    <sequence>
+     <element name="accountEmail" nillable="true" type="xsd:string"/>
+     <element name="accountPerson" nillable="true" type="xsd:string"/>
+     <element name="accountPhone" nillable="true" type="xsd:string"/>
+     <element name="address1" nillable="true" type="xsd:string"/>
+     <element name="address2" nillable="true" type="xsd:string"/>
+     <element name="city" nillable="true" type="xsd:string"/>
+     <element name="companyId" type="xsd:int"/>
+     <element name="companyName" nillable="true" type="xsd:string"/>
+     <element name="contactEmail" nillable="true" type="xsd:string"/>
+     <element name="contactPerson" nillable="true" type="xsd:string"/>
+     <element name="contactPhone" nillable="true" type="xsd:string"/>
+     <element name="country" nillable="true" type="xsd:string"/>
+     <element name="currency" nillable="true" type="xsd:string"/>
+     <element name="postCode" nillable="true" type="xsd:string"/>
+     <element name="province" nillable="true" type="xsd:string"/>
+     <element name="tblSysBrandses" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="tblSysUserCompanieses" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="TblSysBrands">
+    <sequence>
+     <element name="billingEmail" nillable="true" type="xsd:string"/>
+     <element name="billingName" nillable="true" type="xsd:string"/>
+     <element name="billingTel" nillable="true" type="xsd:string"/>
+     <element name="brandId" type="xsd:int"/>
+     <element name="brandName" nillable="true" type="xsd:string"/>
+     <element name="creativeEmail" nillable="true" type="xsd:string"/>
+     <element name="creativeName" nillable="true" type="xsd:string"/>
+     <element name="creativeTel" nillable="true" type="xsd:string"/>
+     <element name="reportingEmail" nillable="true" type="xsd:string"/>
+     <element name="reportingName" nillable="true" type="xsd:string"/>
+     <element name="reportingTel" nillable="true" type="xsd:string"/>
+     <element name="tblBannerses" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="tblLocationses" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="tblSysCompanies" nillable="true" type="tns1:TblSysCompanies"/>
+    </sequence>
+   </complexType>
+   <complexType name="TblSysCategories">
+    <sequence>
+     <element name="categoryId" type="xsd:int"/>
+     <element name="categoryName" nillable="true" type="xsd:string"/>
+     <element name="tblBannerses" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="tblSysSubCategorieses" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="mainResponse">
+
+      <wsdl:part element="impl:mainResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRadRequest">
+
+      <wsdl:part element="impl:getRad" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRadResponse">
+
+      <wsdl:part element="impl:getRadResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="mainRequest">
+
+      <wsdl:part element="impl:main" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="RequestRAD">
+
+      <wsdl:operation name="main">
+
+         <wsdl:input message="impl:mainRequest" name="mainRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:mainResponse" name="mainResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRad">
+
+         <wsdl:input message="impl:getRadRequest" name="getRadRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getRadResponse" name="getRadResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="RequestRADSoapBinding" type="impl:RequestRAD">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="main">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="mainRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="mainResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRad">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRadRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRadResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="RequestRADService">
+
+      <wsdl:port binding="impl:RequestRADSoapBinding" name="RequestRAD">
+
+         <wsdlsoap:address location="http://localhost:8084/AdServerWebServices/services/RequestRAD"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

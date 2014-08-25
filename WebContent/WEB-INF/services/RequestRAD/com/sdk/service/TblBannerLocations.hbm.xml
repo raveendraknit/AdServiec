@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblBannerLocations" table="tblBannerLocations" schema="dbo" catalog="AddManager">
+        <composite-id name="id" class="com.sdk.service.TblBannerLocationsId">
+            <key-property name="bannerId" type="string">
+                <column name="BannerID" length="36" />
+            </key-property>
+            <key-property name="locationId" type="string">
+                <column name="LocationID" length="36" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="tblBanners" class="com.sdk.service.TblBanners" update="false" insert="false" fetch="select">
+            <column name="BannerID" length="36" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblLocations" class="com.sdk.service.TblLocations" update="false" insert="false" fetch="select">
+            <column name="LocationID" length="36" not-null="true" />
+        </many-to-one>
+        <property name="geoMaxRadius" type="int">
+            <column name="GeoMaxRadius" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

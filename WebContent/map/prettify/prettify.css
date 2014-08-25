@@ -1,0 +1,50 @@
+
+.str { color: #080; }
+.kwd { color: #008; }
+.com { color: #800; }
+.typ { color: #606; }
+.lit { color: #066; }
+.pun { color: #660; }
+.pln { color: #000; }
+.tag { color: #008; }
+.atn { color: #606; }
+.atv { color: #080; }
+.dec { color: #606; }
+pre.prettyprint { padding: 2px; border: 1px solid #888; }
+pre.prettyprint { 
+  border: 1px solid #ccc; 
+  background:#f0fbfd; 
+  font-size:9pt; 
+  padding: 10px; 
+  margin:0;}
+
+@media print {
+  .str { color: #060; }
+  .kwd { color: #006; font-weight: bold; }
+  .com { color: #600; font-style: italic; }
+  .typ { color: #404; font-weight: bold; }
+  .lit { color: #044; }
+  .pun { color: #440; }
+  .pln { color: #000; }
+  .tag { color: #006; font-weight: bold; }
+  .atn { color: #404; }
+  .atv { color: #060; }
+}
+.pretop{
+  position:relative;
+  display:block;
+  height:21px;
+  top:23px;
+  right:2px;
+  line-height:21px;
+  text-align:right;
+  padding:0px;
+  vertical-align: middle;
+  padding-right:0px;
+  margin-bottom:0;
+}
+.pretop a {
+  color:white;
+}
+
+pre.code { display: block; padding: 8px; border: 1px dashed #ccc; }

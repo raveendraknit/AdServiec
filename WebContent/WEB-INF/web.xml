@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" metadata-complete="true" version="3.0">
+  <display-name>AdService</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+   	<filter>
+		<!-- The CORS filter with parameters -->
+		<filter-name>CORS</filter-name>
+		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+		
+		<!-- Note: All parameters are options, if omitted the CORS 
+		     Filter will fall back to the respective default values.
+		  -->
+		<init-param>
+			<param-name>cors.allowGenericHttpRequests</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>cors.allowOrigin</param-name>
+			<param-value>*</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>cors.allowSubdomains</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>cors.supportedMethods</param-name>
+			<param-value>GET, HEAD, POST, OPTIONS</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>cors.supportedHeaders</param-name>
+			<param-value>*</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>cors.exposedHeaders</param-name>
+			<param-value>X-TEST-1, X-Test-2</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>cors.supportsCredentials</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>cors.maxAge</param-name>
+			<param-value>3600</param-value>
+		</init-param>
+
+	</filter>
+
+	<filter-mapping>
+		<!-- CORS Filter mapping -->
+		<filter-name>CORS</filter-name>
+		<url-pattern>/cors-resource.html</url-pattern>
+	</filter-mapping>
+  <servlet>
+    <servlet-name>jersey-serlvet</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>com.sdk.service</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>jersey-serlvet</servlet-name>
+    <url-pattern>/Api/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>fileHandleAction</display-name>
+    <servlet-name>fileHandleAction</servlet-name>
+    <servlet-class>com.sdk.service.services.action.FileHandleAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>fileHandleAction</servlet-name>
+    <url-pattern>/fileHandleAction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>clickAction</display-name>
+    <servlet-name>clickAction</servlet-name>
+    <servlet-class>com.sdk.service.services.action.ClickUrlAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>clickAction</servlet-name>
+    <url-pattern>/clickAction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>trackAction</display-name>
+    <servlet-name>trackAction</servlet-name>
+    <servlet-class>com.sdk.service.services.action.TrackUrlAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>trackAction</servlet-name>
+    <url-pattern>/trackAction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>landingpage</display-name>
+    <servlet-name>landingpage</servlet-name>
+    <servlet-class>com.sdk.service.services.action.LandingPageAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>landingpage</servlet-name>
+    <url-pattern>/landingpage</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>actions</display-name>
+    <servlet-name>actions</servlet-name>
+    <servlet-class>com.sdk.service.services.action.ActionsAction</servlet-class>
+  </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>BannerAction</display-name>
+  	<servlet-name>BannerAction</servlet-name>
+  	<servlet-class>com.sdk.service.services.action.BannerAction</servlet-class>
+  	<enabled>true</enabled>
+  	<async-supported>false</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>actions</servlet-name>
+    <url-pattern>/actions</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>BannerAction</servlet-name>
+  	<url-pattern>/banner</url-pattern>
+  </servlet-mapping>
+</web-app>

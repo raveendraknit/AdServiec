@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetMembership" table="aspnet_Membership" schema="dbo" catalog="AddManager">
+        <id name="userId" type="string">
+            <column name="UserId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="aspnetApplications" class="com.sdk.service.AspnetApplications" fetch="select">
+            <column name="ApplicationId" length="36" not-null="true" />
+        </many-to-one>
+        <many-to-one name="aspnetUsers" class="com.sdk.service.AspnetUsers" update="false" insert="false" fetch="select">
+            <column name="UserId" length="36" not-null="true" unique="true" />
+        </many-to-one>
+        <property name="password" type="serializable">
+            <column name="Password" not-null="true" />
+        </property>
+        <property name="passwordFormat" type="int">
+            <column name="PasswordFormat" not-null="true" />
+        </property>
+        <property name="passwordSalt" type="serializable">
+            <column name="PasswordSalt" not-null="true" />
+        </property>
+        <property name="mobilePin" type="serializable">
+            <column name="MobilePIN" />
+        </property>
+        <property name="email" type="serializable">
+            <column name="Email" />
+        </property>
+        <property name="loweredEmail" type="serializable">
+            <column name="LoweredEmail" />
+        </property>
+        <property name="passwordQuestion" type="serializable">
+            <column name="PasswordQuestion" />
+        </property>
+        <property name="passwordAnswer" type="serializable">
+            <column name="PasswordAnswer" />
+        </property>
+        <property name="isApproved" type="boolean">
+            <column name="IsApproved" not-null="true" />
+        </property>
+        <property name="isLockedOut" type="boolean">
+            <column name="IsLockedOut" not-null="true" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="CreateDate" length="23" not-null="true" />
+        </property>
+        <property name="lastLoginDate" type="timestamp">
+            <column name="LastLoginDate" length="23" not-null="true" />
+        </property>
+        <property name="lastPasswordChangedDate" type="timestamp">
+            <column name="LastPasswordChangedDate" length="23" not-null="true" />
+        </property>
+        <property name="lastLockoutDate" type="timestamp">
+            <column name="LastLockoutDate" length="23" not-null="true" />
+        </property>
+        <property name="failedPasswordAttemptCount" type="int">
+            <column name="FailedPasswordAttemptCount" not-null="true" />
+        </property>
+        <property name="failedPasswordAttemptWindowStart" type="timestamp">
+            <column name="FailedPasswordAttemptWindowStart" length="23" not-null="true" />
+        </property>
+        <property name="failedPasswordAnswerAttemptCount" type="int">
+            <column name="FailedPasswordAnswerAttemptCount" not-null="true" />
+        </property>
+        <property name="failedPasswordAnswerAttemptWindowStart" type="timestamp">
+            <column name="FailedPasswordAnswerAttemptWindowStart" length="23" not-null="true" />
+        </property>
+        <property name="comment" type="serializable">
+            <column name="Comment" />
+        </property>
+    </class>
+</hibernate-mapping>

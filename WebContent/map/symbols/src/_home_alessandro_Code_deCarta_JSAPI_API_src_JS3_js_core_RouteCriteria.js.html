@@ -1,0 +1,161 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  *  @class
+<span class='line'>  3</span>  *  Data structure for route request parameters, used with the
+<span class='line'>  4</span>  *  {@link deCarta.Core.Routing}:execute() method. The structure of the
+<span class='line'>  5</span>  *  RouteCriteria class is as follows:
+<span class='line'>  6</span>  * &lt;pre>
+<span class='line'>  7</span>  *   object: {
+<span class='line'>  8</span>  *       distanceUnit: string, //Unit for route distance measurement. Valid values are: 'KM' (Kilometers), 'M' (Meters), 'MI' (Miles), 'FT' (Feet).
+<span class='line'>  9</span>  *       instructionProvidePoint: bool, //[Not yet defined]
+<span class='line'> 10</span>  *       instructionRules: string, //[Not yet defined]
+<span class='line'> 11</span>  *       provideRouteHandle: bool, //Provide a route Id for further operations on route
+<span class='line'> 12</span>  *       returnIdOnly: //&lt;em>true&lt;/em> will cause route query to return a server route ID
+<span class='line'> 13</span>  *       routePreference: string, //"AvoidFreeways", "Easy", "Fastest", "MoreFreeways", "NoFreeways", "Pedestrian", "Shortest"
+<span class='line'> 14</span>  *       routeQueryType: string, //Type of DDS Query, 'RMAN' or 'RTXT' [Need to define valid values and what they indicate.]
+<span class='line'> 15</span>  *       waypoints: //Must include at least start and end points
+<span class='line'> 16</span>  *           0: {deCarta.Core.Position}
+<span class='line'> 17</span>  *           ...
+<span class='line'> 18</span>  *           N: {deCarta.Core.Position}
+<span class='line'> 19</span>  * &lt;/pre>
+<span class='line'> 20</span>  *
+<span class='line'> 21</span>  * @description Data structure for setting route request parameters.
+<span class='line'> 22</span>  *
+<span class='line'> 23</span>  * @see deCarta.Core.Routing
+<span class='line'> 24</span>  */</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="NAME">deCarta.Core.RouteCriteria</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="NAME">deCarta.Core.RouteCriteria.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 28</span>      * Unit for route distance measurement. Valid values are: 'KM' (Kilometers), 'M' (Meters), 'MI' (Miles), 'FT' (Feet)
+<span class='line'> 29</span>      */</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="NAME">distanceUnit</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'M'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 32</span>      * Type of DDS Query, 'RMAN' or 'RTXT' [Need to define valid values and what they indicate.]
+<span class='line'> 33</span>      */</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">routeQueryType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'RMAN'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 36</span>      * Provide a route Id for further operations on route @See deCarta.Core.SearchCriteria for CorridorSearch
+<span class='line'> 37</span>      */</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="NAME">provideRouteHandle</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'false'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 40</span>      * Route preferences.
+<span class='line'> 41</span>      * &lt;p>The various different routing styles are summarized below.&lt;/p>
+<span class='line'> 42</span>      * &lt;ul>
+<span class='line'> 43</span>      * &lt;li>"AvoidFreeways" = Return a vehicular route that avoids limited access
+<span class='line'> 44</span>      * roads (e.g. freeways) as much as possible.&lt;/li>
+<span class='line'> 45</span>      * &lt;li>"Easy" = Return a vehicular route that attempts to make as few turns,
+<span class='line'> 46</span>      * balancing this constraint with the shortest travel time.&lt;/li>
+<span class='line'> 47</span>      * &lt;li>"Fastest" = (DEFAULT) Return a vehicular route with the smallest, calculated
+<span class='line'> 48</span>      * travel time. This is the standard, and default routing style.&lt;/li>
+<span class='line'> 49</span>      * &lt;li>"MoreFreeways" = Return a vehicular route that will attempt to use as
+<span class='line'> 50</span>      * many limited access roads (e.g. freeways) as possible.&lt;/li>
+<span class='line'> 51</span>      * &lt;li>"NoFreeways" = Return a vehicular route that avoids limited access
+<span class='line'> 52</span>      * roads (e.g. freeways) entirely. This route will take only surface street
+<span class='line'> 53</span>      * and arterial roads to the destination.&lt;/li>
+<span class='line'> 54</span>      * &lt;li>"Pedestrian" = Return a route fit for Pedestrian traffic. Routes will
+<span class='line'> 55</span>      * avoid limited access roads, ignore vehicular signage restrictions, obey
+<span class='line'> 56</span>      * impassible physical restrictions (like grade separations), take the most
+<span class='line'> 57</span>      * direct path possible, and utilize pedestrian only foot-traffic paths.&lt;/li>
+<span class='line'> 58</span>      * &lt;li>"Shortest" = Return a vehicular route with the shortest total distance
+<span class='line'> 59</span>      * traveled.&lt;/li>
+<span class='line'> 60</span>      * &lt;/ul>
+<span class='line'> 61</span>      */</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">    </span><span class="NAME">routePreference</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'Fastest'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 65</span>      * An array of {@link deCarta.Core.Position}s, from start-to-end of the
+<span class='line'> 66</span> 	 * route. Must include at least 2 (start and end).
+<span class='line'> 67</span>      */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">    </span><span class="NAME">waypoints</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 71</span>      * [Not yet defined]
+<span class='line'> 72</span>      */</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">    </span><span class="NAME">instructionProvidePoint</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'true'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 76</span>      * The type of vehicle type to use in calculating the route.
+<span class='line'> 77</span>      * Valid values are  "PassengerCar", "4WD", "HOV", "Emergency", "Taxi",
+<span class='line'> 78</span>      * "PublicBus", "DeliveryTruck", "TransportTruck", "Motorcycle" and
+<span class='line'> 79</span>      * "Pedestrian". 
+<span class='line'> 80</span>      * It can either be a single value (eg PassengerCar) or a comma separated list
+<span class='line'> 81</span>      * (eg PassengerCar,4WD) or an array (eg ["PassengerCar", "4WD"])
+<span class='line'> 82</span>      * Defaults to PassengerCar
+<span class='line'> 83</span>      */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">    </span><span class="NAME">vehicleTypes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"PassengerCar"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 87</span>      * [Not yet defined]
+<span class='line'> 88</span>      */</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">    </span><span class="NAME">instructionRules</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'maneuver-rules'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 92</span>      * If set to &lt;em>true&lt;/em>, the route calculation will only return a route ID.
+<span class='line'> 93</span> 	 * Default=false
+<span class='line'> 94</span>      */</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">    </span><span class="NAME">returnIdOnly</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'false'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 98</span>      * If set to &lt;em>true&lt;/em>, the route calculation will take into consideration live traffic.
+<span class='line'> 99</span>      * Default=false
+<span class='line'>100</span>      * @note the server must be running the deCarta Traffic Manager
+<span class='line'>101</span>      */</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">    </span><span class="NAME">trafficEnabled</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'false'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>103</span> 
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>105</span>      * Array of any combination of:     
+<span class='line'>106</span>      * Polygon, Circle or Polyline objects
+<span class='line'>107</span>      */</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">    </span><span class="NAME">avoidAreas</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> </span><span class="WHIT">    </span><span class="COMM">/***
+<span class='line'>111</span>      * Array of features to avoid. Features are string and can be :
+<span class='line'>112</span>      * Ferry
+<span class='line'>113</span>      * Toll
+<span class='line'>114</span>      * Tunnels
+<span class='line'>115</span>      * Bridges
+<span class='line'>116</span>      *
+<span class='line'>117</span>      */</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="NAME">avoidList</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>121</span>     * Integer. 
+<span class='line'>122</span>     * If this is set to N, the routing query will return N alternate routes 
+<span class='line'>123</span>     * in addition to the regular response. 
+<span class='line'>124</span>     */</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">    </span><span class="NAME">alternateRoutes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>126</span> 
+<span class='line'>127</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>128</span>     * Boolean. 
+<span class='line'>129</span>     * If the route has moltiple waypoints, setting this to true will fine the best 
+<span class='line'>130</span>     * order in which to visit the waypoints. If false, the waypoints will be 
+<span class='line'>131</span>     * visited in their original order. 
+<span class='line'>132</span>     */</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">    </span><span class="NAME">optimized</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>135</span>     * maneuverMaps is a flag to trigger each RouteInstruction to include
+<span class='line'>136</span>     * a URL to a small image representing the maneuver in a top up
+<span class='line'>137</span>     * orientation
+<span class='line'>138</span>     * @type String URL
+<span class='line'>139</span>     * @default false
+<span class='line'>140</span>     */</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">    </span><span class="NAME">maneuverMaps</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>143</span>     * configures the height and width of the maneuver maps
+<span class='line'>144</span>     * @type Object
+<span class='line'>145</span>     * @default {height:200,width:200}
+<span class='line'>146</span>     */</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">    </span><span class="NAME">maneuverMapConfig</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">        </span><span class="NAME">format</span><span class="PUNC">:</span><span class="STRN">"GIF"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">        </span><span class="NAME">orientation</span><span class="PUNC">:</span><span class="STRN">"heading-up"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">        </span><span class="NAME">height</span><span class="PUNC">:</span><span class="NUMB">200</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">        </span><span class="NAME">width</span><span class="PUNC">:</span><span class="NUMB">200</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">    </span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="PUNC">}</span></pre></body></html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!--   Hibernate _conf_properties for SQLServer for development on local machine-->
+    <!--  <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost;databaseName=AddManager</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.connection.password">pspl</property> -->
+    
+    
+    <!--   Hibernate _conf_properties for Postgres for production and dev server-->
+    
+   <!--  <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.url">jdbc:postgresql://dev.vic-m.co/addmanager</property>
+    <property name="connection.username">vici</property>
+    <property name="connection.password">aneasy1</property> -->
+   
+   <!--   Hibernate _conf_properties for Postgres for development on local machine-->
+   
+    <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.url">jdbc:postgresql://localhost/addmanager</property>
+    <property name="connection.username">postgres</property>
+    <property name="connection.password">admin</property>
+   
+    
+    <mapping class="com.sdk.service.Tblsyssubcategories"/>
+    <mapping class="com.sdk.service.AspnetApplications"/>
+    <mapping class="com.sdk.service.AspnetSchemaversionsId"/>
+    <mapping class="com.sdk.service.AspnetSchemaversions"/>
+    <mapping class="com.sdk.service.AspnetPersonalizationallusers"/>
+    <mapping class="com.sdk.service.Tblbannertimes"/>
+    <mapping class="com.sdk.service.Tblbannersizes"/>
+    <mapping class="com.sdk.service.AspnetPaths"/>
+    <mapping class="com.sdk.service.AspnetRoles"/>
+    <mapping class="com.sdk.service.Tblhandset"/>
+    <mapping class="com.sdk.service.Tblbanners"/>
+    <mapping class="com.sdk.service.AspnetMembership"/>
+    <mapping class="com.sdk.service.Tblbannerlocations"/>
+    <mapping class="com.sdk.service.AspnetProfile"/>
+    <mapping class="com.sdk.service.Tblsyscompanies"/>
+    <mapping class="com.sdk.service.Tblbanneractions"/>
+    <mapping class="com.sdk.service.TblbannerlocationsId"/>
+    <mapping class="com.sdk.service.AspnetUsers"/>
+    <mapping class="com.sdk.service.Tblactions"/>
+    <mapping class="com.sdk.service.Tblsysbrands"/>
+    <mapping class="com.sdk.service.Tblbannersubcateories"/>
+    <mapping class="com.sdk.service.Tblbannerlogs"/>
+    <mapping class="com.sdk.service.Tbllocations"/>
+    <mapping class="com.sdk.service.Tblbannerimages"/>
+    <mapping class="com.sdk.service.Tblbannerdayofweeks"/>
+    <mapping class="com.sdk.service.AspnetPersonalizationperuser"/>
+    <mapping class="com.sdk.service.Tblbannerhandsets"/>
+    <mapping class="com.sdk.service.AspnetWebeventEvents"/>
+    <mapping class="com.sdk.service.Tblsysusercompanies"/>
+    <mapping class="com.sdk.service.Tblsyscategories"/>
+   
+  </session-factory>
+</hibernate-configuration>

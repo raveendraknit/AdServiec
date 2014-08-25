@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.AspnetUsers" table="aspnet_Users" schema="dbo" catalog="AddManager">
+        <id name="userId" type="string">
+            <column name="UserId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="aspnetApplications" class="com.sdk.service.AspnetApplications" fetch="select">
+            <column name="ApplicationId" length="36" not-null="true" />
+        </many-to-one>
+        <property name="userName" type="string">
+            <column name="UserName" not-null="true" />
+        </property>
+        <property name="loweredUserName" type="string">
+            <column name="LoweredUserName" not-null="true" />
+        </property>
+        <property name="mobileAlias" type="string">
+            <column name="MobileAlias" />
+        </property>
+        <property name="isAnonymous" type="boolean">
+            <column name="IsAnonymous" not-null="true" />
+        </property>
+        <property name="lastActivityDate" type="timestamp">
+            <column name="LastActivityDate" length="23" not-null="true" />
+        </property>
+        <set name="aspnetRoleses" inverse="false" table="aspnet_UsersInRoles">
+            <key>
+                <column name="UserId" length="36" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sdk.service.AspnetRoles">
+                <column name="RoleId" length="36" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="aspnetPersonalizationPerUsers" inverse="true">
+            <key>
+                <column name="UserId" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetPersonalizationPerUser" />
+        </set>
+        <set name="aspnetProfiles" inverse="true">
+            <key>
+                <column name="UserId" length="36" not-null="true" unique="true" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetProfile" />
+        </set>
+        <set name="aspnetMemberships" inverse="true">
+            <key>
+                <column name="UserId" length="36" not-null="true" unique="true" />
+            </key>
+            <one-to-many class="com.sdk.service.AspnetMembership" />
+        </set>
+        <set name="tblSysUserCompanieses" inverse="true">
+            <key>
+                <column name="UserID" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.TblSysUserCompanies" />
+        </set>
+    </class>
+</hibernate-mapping>

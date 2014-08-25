@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Draggable Items Demo
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Pins</h1>
+            Draggable Pins and Shapes. Try dragging the pin and shapes around. You can also drag the pin on top of the shapes..
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword; 
+
+        var center =  new deCarta.Core.Position(Config.position);
+        var overlay = new deCarta.Core.MapOverlay({
+            name: "Pins"            
+        });
+
+        var circle = new deCarta.Core.Circle({
+            position:new deCarta.Core.Position(-26.067731,28.067819), 
+            radius: 3000, //meters
+            draggable: true
+        });
+        
+        var polygon = new deCarta.Core.Polygon({
+            vertices: [
+                new deCarta.Core.Position(-25.8498,28.179742),
+                new deCarta.Core.Position(-25.848564,28.200341),
+                new deCarta.Core.Position(-25.877604,28.22918),
+                new deCarta.Core.Position(-25.891195,28.187295)
+            ],
+            strokeColor: '#000',
+            fillColor: '#008800',
+            draggable: true
+        });
+
+        var pin = new deCarta.Core.Pin({
+            position: center.clone(), 
+            text: 'Lorem ipsum dolor sit amet.',
+            draggable: true
+        });
+
+        pin.onmoveend(function(ev){
+
+            var inCircle = circle.contains(pin);
+            var inPoly = polygon.contains(pin);
+
+            if (inCircle && inPoly){
+                this.setText('You have dragged the pin on to <br /><span style="color: blue; font-weight: bold">the blue circle!</span><br />AND<br /><span style="color: green; font-weight: bold">the green polygon!</span>');
+                this.showText();
+            } else if (inCircle){
+                this.setText('You have dragged the pin on to <br /><span style="color: blue; font-weight: bold">the blue circle!</span>');
+                this.showText();
+            } else if (inPoly){
+                this.setText('You have dragged the pin on to <br /><span style="color: green; font-weight: bold">the green polygon!</span>');
+                this.showText();
+            } else {
+                this.setText("Pin Location : <br />" + this.getCenter().toString(4));                
+                this.showText();
+            }
+        });
+
+        pin.onmovestart(function(ev){            
+            this.hideText();
+        });
+
+
+        window.map = new deCarta.Core.Map({
+            id: "mapContainer",
+            autoResize: true,
+            zoom: 11,
+            center: center,
+            onReady: function(map){
+                map.addLayer(overlay);
+                overlay.addObject(pin);
+                overlay.addObject(circle);
+                overlay.addObject(polygon);
+            }
+        });
+            
+    </script>
+</html>    

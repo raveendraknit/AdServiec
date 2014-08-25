@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblBanners" table="tblBanners" schema="dbo" catalog="AddManager">
+        <id name="bannerId" type="string">
+            <column name="BannerID" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tblSysCategories" class="com.sdk.service.TblSysCategories" fetch="select">
+            <column name="CategoryID" />
+        </many-to-one>
+        <many-to-one name="tblSysBrands" class="com.sdk.service.TblSysBrands" fetch="select">
+            <column name="BrandID" not-null="true" />
+        </many-to-one>
+        <property name="catExclusive" type="java.lang.Boolean">
+            <column name="CatExclusive" />
+        </property>
+        <property name="subCategoryId" type="java.lang.Integer">
+            <column name="SubCategoryID" />
+        </property>
+        <property name="exclusive" type="java.lang.Boolean">
+            <column name="Exclusive" />
+        </property>
+        <property name="bannerName" type="string">
+            <column name="BannerName" length="100" />
+        </property>
+        <property name="statusId" type="java.lang.Integer">
+            <column name="StatusID" />
+        </property>
+        <property name="campaignType" type="string">
+            <column name="CampaignType" length="3" />
+        </property>
+        <property name="startDate" type="timestamp">
+            <column name="StartDate" length="23" />
+        </property>
+        <property name="endDate" type="timestamp">
+            <column name="EndDate" length="23" />
+        </property>
+        <property name="budget" type="java.lang.Double">
+            <column name="Budget" precision="53" scale="0" />
+        </property>
+        <property name="dailyBudget" type="java.lang.Double">
+            <column name="DailyBudget" precision="53" scale="0" />
+        </property>
+        <property name="curDailyBudget" type="java.lang.Double">
+            <column name="CurDailyBudget" precision="53" scale="0" />
+        </property>
+        <property name="dailyBudgetDate" type="date">
+            <column name="DailyBudgetDate" length="10" />
+        </property>
+        <property name="balance" type="java.lang.Double">
+            <column name="Balance" precision="53" scale="0" />
+        </property>
+        <property name="cpm" type="java.lang.Double">
+            <column name="CPM" precision="53" scale="0" />
+        </property>
+        <property name="cpc" type="java.lang.Double">
+            <column name="CPC" precision="53" scale="0" />
+        </property>
+        <property name="cpa" type="java.lang.Double">
+            <column name="CPA" precision="53" scale="0" />
+        </property>
+        <property name="cpmlimit" type="java.lang.Double">
+            <column name="CPMLimit" precision="53" scale="0" />
+        </property>
+        <property name="cpclimit" type="java.lang.Double">
+            <column name="CPCLimit" precision="53" scale="0" />
+        </property>
+        <property name="cpalimit" type="java.lang.Double">
+            <column name="CPALimit" precision="53" scale="0" />
+        </property>
+        <property name="impressions" type="java.lang.Long">
+            <column name="Impressions" />
+        </property>
+        <property name="clicks" type="java.lang.Long">
+            <column name="Clicks" />
+        </property>
+        <property name="convertions" type="java.lang.Long">
+            <column name="Convertions" />
+        </property>
+        <property name="priority" type="java.lang.Integer">
+            <column name="Priority" />
+        </property>
+        <property name="keywords" type="string">
+            <column name="Keywords" length="500" />
+        </property>
+        <property name="url" type="string">
+            <column name="URL" length="500" />
+        </property>
+        <property name="enabled" type="java.lang.Boolean">
+            <column name="Enabled" />
+        </property>
+        <property name="dateCreated" type="timestamp">
+            <column name="DateCreated" length="23" />
+        </property>
+        <property name="archived" type="java.lang.Boolean">
+            <column name="Archived" />
+        </property>
+        <property name="dateArchived" type="timestamp">
+            <column name="DateArchived" length="23" />
+        </property>
+        <set name="tblBannerTimeses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerTimes" />
+        </set>
+        <set name="tblBannerSubCateorieses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerSubCateories" />
+        </set>
+        <set name="tblBannerLogses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerLogs" />
+        </set>
+        <set name="tblBannerHandsetses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerHandsets" />
+        </set>
+        <set name="tblBannerActionses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerActions" />
+        </set>
+        <set name="tblBannerLocationses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerLocations" />
+        </set>
+        <set name="tblBannerImageses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerImages" />
+        </set>
+        <set name="tblBannerDayOfWeekses" inverse="true">
+            <key>
+                <column name="BannerID" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerDayOfWeeks" />
+        </set>
+    </class>
+</hibernate-mapping>

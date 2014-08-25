@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
+        <title dir="ltr">
+            Routing Demo - Advanced Topics
+        </title>
+        <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="css/examples.css">
+        <link rel="stylesheet" href="css/core.css">
+        
+        <script src="deCarta.JS3.js"></script>
+        <script src="Config.js"></script>
+    </head>
+    <body class="example">        
+        <div id="mapContainer"></div>        
+        <div class="description">
+            <h1 class="title">Advanced Routing</h1>
+            This demo illustrates the use of multi-stop routing with road type avoidance and polygonal area avoidance.  The demo also shows how to calculate the route before rendering any map.
+            <a href="" id="demo-show-hide" class='hide'>&#9650;</a>
+        </div>        
+    </body>
+    <script src="exampleUtils.js"></script>
+    <script>
+        // see Config.js for details
+        deCarta.Core.Configuration.clientName = Config.clientName;
+        deCarta.Core.Configuration.clientPassword = Config.clientPassword;                               
+
+        Toast.show("calculating route, please wait");
+
+        var routeOverlay = new deCarta.Core.MapOverlay({
+            name: 'route'
+        });
+
+        var shapeOverlay = new deCarta.Core.MapOverlay({
+            name: "Shapes"
+        });        
+
+        var capsOverlay = new deCarta.Core.MapOverlay({
+            name: "routeCaps"
+        });
+
+        var avoidPolygon = new deCarta.Core.Polygon({
+            vertices: [
+                new deCarta.Core.Position(-25.941893,28.106179),
+                new deCarta.Core.Position(-25.953701,28.13785),
+                new deCarta.Core.Position(-25.984644,28.129782),
+                new deCarta.Core.Position(-25.985801,28.083777)
+            ],
+            strokeColor: '#FF0000',
+            fillColor: '#880000'
+        });     
+
+        var avoidCircle = new deCarta.Core.Circle({
+            position: new deCarta.Core.Position(Config.position),
+            radius: 10000 //meters
+        })   
+
+        var routeCriteria = new deCarta.Core.RouteCriteria();
+        var positions = [
+             new deCarta.Core.Position(-25.887123,28.205),
+             new deCarta.Core.Position(-26.110437,28.053578)   
+        ];
+        routeCriteria.waypoints = positions;
+        routeCriteria.distanceUnit="KM";
+        //routeCriteria.routePreference="AvoidFreeways";            
+        routeCriteria.avoidAreas.push(avoidPolygon);
+        //routeCriteria.avoidList.push('Toll');
+
+        deCarta.Core.Routing.execute(routeCriteria, function(route, error){
+            var line = new deCarta.Core.Polyline({
+                lineGeometry: route.routeGeometry
+            })
+            var centerAndZoom = line.getIdealCenterAndZoom("mapContainer");
+            window.map = new deCarta.Core.Map({
+                zoom: centerAndZoom.zoom,
+                center: centerAndZoom.center,
+                id: "mapContainer",
+                onReady: function(){
+
+                    Toast.hide();
+                    map.addOverlay(routeOverlay);
+                    routeOverlay.addObject(line);
+
+                    // It is not necessary to add shapes to the map 
+                    // to use them as exclusion zones. 
+                    // This is just to help visualize the effect the zones have
+                    // on the routing. 
+                    map.addOverlay(shapeOverlay);                
+                    shapeOverlay.addObject(avoidPolygon);
+                    
+                    var pinOverlay = new deCarta.Core.MapOverlay({
+                        name: "Pins"
+                    }); 
+                    map.addLayer(pinOverlay);
+                    for(var i=0; i<positions.length;i++){
+                        var pin = new deCarta.Core.Pin({
+                            position: positions[i]
+                        });
+                        pinOverlay.addObject(pin);
+                    }
+                }.bind(this)
+            });
+        });
+    </script>
+</html>    

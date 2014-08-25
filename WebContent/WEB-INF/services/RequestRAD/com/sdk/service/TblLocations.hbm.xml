@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 11, 2013 6:57:55 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sdk.service.TblLocations" table="tblLocations" schema="dbo" catalog="AddManager">
+        <id name="locationId" type="string">
+            <column name="LocationID" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tblSysBrands" class="com.sdk.service.TblSysBrands" fetch="select">
+            <column name="BrandID" not-null="true" />
+        </many-to-one>
+        <property name="locationName" type="string">
+            <column name="LocationName" length="100" not-null="true" />
+        </property>
+        <property name="storeCode" type="string">
+            <column name="StoreCode" length="30" not-null="true" />
+        </property>
+        <property name="storeName" type="string">
+            <column name="StoreName" length="100" />
+        </property>
+        <property name="addressLine1" type="string">
+            <column name="AddressLine1" length="100" />
+        </property>
+        <property name="addressLine2" type="string">
+            <column name="AddressLine2" length="100" />
+        </property>
+        <property name="city" type="string">
+            <column name="City" length="50" />
+        </property>
+        <property name="postalCode" type="string">
+            <column name="PostalCode" length="15" />
+        </property>
+        <property name="countryCode" type="string">
+            <column name="CountryCode" length="3" />
+        </property>
+        <property name="mainPhone" type="string">
+            <column name="MainPhone" length="30" />
+        </property>
+        <property name="homePage" type="string">
+            <column name="HomePage" />
+        </property>
+        <property name="latitude" type="java.lang.Double">
+            <column name="Latitude" precision="53" scale="0" />
+        </property>
+        <property name="longitude" type="java.lang.Double">
+            <column name="Longitude" precision="53" scale="0" />
+        </property>
+        <property name="locationMaxRadius" type="java.lang.Integer">
+            <column name="LocationMaxRadius" />
+        </property>
+        <property name="location" type="binary">
+            <column name="Location" />
+        </property>
+        <property name="approved" type="java.lang.Boolean">
+            <column name="Approved" />
+        </property>
+        <set name="tblBannerLogses" inverse="true">
+            <key>
+                <column name="LocationID" length="36" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerLogs" />
+        </set>
+        <set name="tblBannerLocationses" inverse="true">
+            <key>
+                <column name="LocationID" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.sdk.service.TblBannerLocations" />
+        </set>
+    </class>
+</hibernate-mapping>
