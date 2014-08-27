@@ -82,7 +82,7 @@ public class AspnetUsers  implements Serializable {
     public void setUserid(String userid) {
         this.userid = userid;
     }
-@ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="applicationid", nullable=false)
     public AspnetApplications getAspnetApplications() {
         return this.aspnetApplications;
